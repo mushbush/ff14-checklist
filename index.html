@@ -451,7 +451,11 @@
 let DATA = [];
 
 function toId(t) {
-  return t.trim().replace(/[^a-zA-Z0-9가-힣]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase();
+  return t.trim().replace(/[^a-zA-Z0-9가-힣]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase().slice(0, 80);
+}
+
+function safeAttr(t) {
+  return t.replace(/[&"'<>]/g, c => ({'&':'&amp;','"':'&quot;',"'":'&#39;','<':'&lt;','>':'&gt;'}[c]));
 }
 
 function parseMd(md) {
@@ -527,7 +531,7 @@ function buildSubs(cat) {
     const shut = localStorage.getItem('shut-'+sub.id)==='1';
     html += `
       <div class="sub${ok?' sub-ok':''}${shut?' shut':''}">
-        <div class="sub-hd" data-sub="${sub.id}">
+        <div class="sub-hd" data-sub="${safeAttr(sub.id)}">
           ${SCHEV}
           <span class="sub-title">${esc(sub.title)}</span>
           <div class="sub-prog">
@@ -538,7 +542,7 @@ function buildSubs(cat) {
         <div class="sub-bd">
           <div class="clist">
             ${sub.items.map((it,i) => `
-              <div class="ci${ss[i]?' done':''}" data-sub="${sub.id}" data-i="${i}">
+              <div class="ci${ss[i]?' done':''}" data-sub="${safeAttr(sub.id)}" data-i="${i}">
                 <div class="cb">${CHK}</div>
                 <span class="cl">${esc(it)}</span>
               </div>`).join('')}
@@ -573,10 +577,10 @@ function render() {
       </div>` : '';
 
     el.innerHTML = `
-      <div class="card-hd" data-id="${cat.id}">
+      <div class="card-hd" data-id="${safeAttr(cat.id)}">
         ${badgeHtml}
         <div class="card-row">
-          <span class="card-icon">${cat.icon}</span>
+          <span class="card-icon">${esc(cat.icon)}</span>
           <span class="card-title">${esc(cat.title)}</span>
           ${CHEV}
         </div>
