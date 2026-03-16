@@ -17,6 +17,9 @@
       --accent-light: rgba(200, 85, 61, 0.08);
       --green: #3a8a5c;
       --green-light: rgba(58, 138, 92, 0.08);
+      --daily: #3b6fb5;
+      --daily-light: rgba(59, 111, 181, 0.08);
+      --daily-border: rgba(59, 111, 181, 0.2);
       --border: #e8e2da;
       --border-light: #f0ece6;
       --shadow-sm: 0 1px 3px rgba(26, 23, 20, 0.04);
@@ -57,33 +60,26 @@
 
     .brand {
       font-family: 'Playfair Display', serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
       color: var(--accent);
     }
 
     h1 {
       font-family: 'Playfair Display', serif;
-      font-size: 36px;
-      font-weight: 800;
+      font-size: 36px; font-weight: 800;
       color: var(--text);
-      margin-top: 8px;
-      line-height: 1.2;
+      margin-top: 8px; line-height: 1.2;
     }
 
     .header-sub {
-      font-size: 14px;
-      color: var(--text-light);
-      font-weight: 300;
-      margin-top: 8px;
+      font-size: 14px; color: var(--text-light);
+      font-weight: 300; margin-top: 8px;
     }
 
     /* ── 전체 달성률 ── */
     .total-progress {
-      margin-top: 32px;
-      padding: 24px 28px;
+      margin-top: 32px; padding: 24px 28px;
       background: var(--card);
       border-radius: var(--radius);
       border: 1px solid var(--border);
@@ -92,26 +88,20 @@
     }
 
     .tp-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 14px;
+      display: flex; justify-content: space-between;
+      align-items: baseline; margin-bottom: 14px;
     }
 
     .tp-label { font-size: 14px; font-weight: 600; color: var(--text-mid); }
 
     .tp-pct {
       font-family: 'Playfair Display', serif;
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--accent);
+      font-size: 28px; font-weight: 800; color: var(--accent);
     }
 
     .bar-bg {
-      height: 10px;
-      background: var(--border-light);
-      border-radius: 100px;
-      overflow: hidden;
+      height: 10px; background: var(--border-light);
+      border-radius: 100px; overflow: hidden;
     }
 
     .bar-fill {
@@ -123,47 +113,91 @@
     }
 
     .tp-stats {
-      display: flex;
-      gap: 24px;
-      margin-top: 14px;
-      font-size: 12px;
-      color: var(--text-light);
+      display: flex; gap: 24px; margin-top: 14px;
+      font-size: 12px; color: var(--text-light);
     }
 
     .tp-stats strong { color: var(--text-mid); font-weight: 600; }
 
     /* ── 로딩 ── */
     .loading {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-light);
-      font-size: 14px;
-      font-weight: 300;
+      text-align: center; padding: 60px 20px;
+      color: var(--text-light); font-size: 14px; font-weight: 300;
     }
 
     .loading-spin {
-      display: inline-block;
-      width: 24px; height: 24px;
-      border: 3px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      display: inline-block; width: 24px; height: 24px;
+      border: 3px solid var(--border); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
       margin-bottom: 12px;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .error-msg {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--accent);
-      font-size: 14px;
+      text-align: center; padding: 40px 20px;
+      color: var(--accent); font-size: 14px;
     }
+
+    /* ── 고정 일일 카드 ── */
+    .daily-section {
+      max-width: 1120px;
+      margin: 28px auto 0;
+      padding: 0 24px;
+      animation: fadeUp 0.5s ease 0.15s both;
+    }
+
+    .daily-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 2px solid var(--daily-border);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: box-shadow 0.25s;
+    }
+
+    .daily-card:hover { box-shadow: var(--shadow-lg); }
+
+    .daily-card .card-hd { padding: 20px 24px 16px; }
+    .daily-card .card-hd:hover { background: var(--daily-light); }
+
+    .daily-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: var(--daily-light);
+      color: var(--daily);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 0.3px;
+    }
+
+    .daily-badge svg {
+      width: 12px; height: 12px;
+    }
+
+    .daily-card .card-bar-fill { background: var(--daily); }
+    .daily-card.ok .card-bar-fill { background: var(--green); }
+
+    .daily-card .sub.sub-ok .sub-bar-fill { background: var(--green); }
+    .daily-card .sub .sub-bar-fill { background: var(--daily); }
+
+    .daily-subs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 10px;
+      padding: 4px 14px 16px;
+    }
+
+    .daily-subs .sub { margin: 0; }
 
     /* ── 카드 그리드 ── */
     .grid {
       max-width: 1120px;
-      margin: 32px auto 0;
+      margin: 24px auto 0;
       padding: 0 24px 40px;
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -177,9 +211,10 @@
       h1 { font-size: 28px; }
       .tp-pct { font-size: 24px; }
       .site-header { padding-top: 32px; }
+      .daily-subs { grid-template-columns: 1fr; }
     }
 
-    /* ── 메인 카드 ── */
+    /* ── 일반 카드 ── */
     .card {
       background: var(--card);
       border-radius: var(--radius);
@@ -197,55 +232,37 @@
 
     .card-hd {
       padding: 20px 22px 16px;
-      cursor: pointer;
-      user-select: none;
+      cursor: pointer; user-select: none;
       transition: background 0.15s;
     }
 
     .card-hd:hover { background: var(--accent-light); }
 
-    .card-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .card-row { display: flex; align-items: center; gap: 10px; }
     .card-icon { font-size: 20px; line-height: 1; }
 
     .card-title {
-      flex: 1;
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
+      flex: 1; font-size: 15px; font-weight: 700; color: var(--text);
     }
 
     .chevron {
-      width: 20px; height: 20px;
-      color: var(--text-light);
+      width: 20px; height: 20px; color: var(--text-light);
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
     }
 
-    .card.shut > .card-hd .chevron { transform: rotate(-90deg); }
+    .card.shut > .card-hd .chevron,
+    .daily-card.shut > .card-hd .chevron { transform: rotate(-90deg); }
 
-    .card-prog {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 12px;
-    }
+    .card-prog { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
 
     .card-bar {
-      flex: 1; height: 6px;
-      background: var(--border-light);
-      border-radius: 100px;
-      overflow: hidden;
+      flex: 1; height: 6px; background: var(--border-light);
+      border-radius: 100px; overflow: hidden;
     }
 
     .card-bar-fill {
-      height: 100%;
-      border-radius: 100px;
-      background: var(--accent);
+      height: 100%; border-radius: 100px; background: var(--accent);
       transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -253,21 +270,19 @@
 
     .card-num {
       font-size: 12px; font-weight: 600;
-      color: var(--text-light);
-      min-width: 36px;
-      text-align: right;
+      color: var(--text-light); min-width: 36px; text-align: right;
     }
 
     .card.ok .card-num { color: var(--green); }
 
     .card-bd {
-      max-height: 5000px;
-      overflow: hidden;
+      max-height: 5000px; overflow: hidden;
       transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
       opacity: 1;
     }
 
-    .card.shut > .card-bd { max-height: 0; opacity: 0; }
+    .card.shut > .card-bd,
+    .daily-card.shut > .card-bd { max-height: 0; opacity: 0; }
 
     /* ── 서브 카테고리 ── */
     .sub {
@@ -280,54 +295,35 @@
 
     .sub:first-child { margin-top: 4px; }
     .sub:last-child { margin-bottom: 16px; }
-
     .sub.sub-ok { border-color: rgba(58, 138, 92, 0.2); }
 
     .sub-hd {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
-      cursor: pointer;
-      user-select: none;
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; cursor: pointer; user-select: none;
       transition: background 0.15s;
     }
 
     .sub-hd:hover { background: var(--border-light); }
 
     .sub-chevron {
-      width: 16px; height: 16px;
-      color: var(--text-light);
+      width: 16px; height: 16px; color: var(--text-light);
       transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
       flex-shrink: 0;
     }
 
     .sub.shut .sub-chevron { transform: rotate(-90deg); }
 
-    .sub-title {
-      flex: 1;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-mid);
-    }
+    .sub-title { flex: 1; font-size: 13px; font-weight: 600; color: var(--text-mid); }
 
-    .sub-prog {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .sub-prog { display: flex; align-items: center; gap: 8px; }
 
     .sub-bar {
-      width: 48px; height: 4px;
-      background: var(--border-light);
-      border-radius: 100px;
-      overflow: hidden;
+      width: 48px; height: 4px; background: var(--border-light);
+      border-radius: 100px; overflow: hidden;
     }
 
     .sub-bar-fill {
-      height: 100%;
-      border-radius: 100px;
-      background: var(--accent);
+      height: 100%; border-radius: 100px; background: var(--accent);
       transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -335,16 +331,13 @@
 
     .sub-num {
       font-size: 11px; font-weight: 600;
-      color: var(--text-light);
-      min-width: 28px;
-      text-align: right;
+      color: var(--text-light); min-width: 28px; text-align: right;
     }
 
     .sub.sub-ok .sub-num { color: var(--green); }
 
     .sub-bd {
-      max-height: 2000px;
-      overflow: hidden;
+      max-height: 2000px; overflow: hidden;
       transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
       opacity: 1;
     }
@@ -354,24 +347,17 @@
     .clist { padding: 0 10px 10px; }
 
     .ci {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.15s;
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 8px; border-radius: 8px;
+      cursor: pointer; transition: background 0.15s;
     }
 
     .ci:hover { background: var(--border-light); }
 
     .cb {
-      width: 20px; height: 20px;
-      border-radius: 6px;
+      width: 20px; height: 20px; border-radius: 6px;
       border: 2px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
       transition: background 0.2s, border-color 0.2s, transform 0.2s;
     }
@@ -379,9 +365,7 @@
     .ci:hover .cb { border-color: var(--accent); }
 
     .cb svg {
-      width: 11px; height: 11px;
-      opacity: 0;
-      transform: scale(0);
+      width: 11px; height: 11px; opacity: 0; transform: scale(0);
       transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -389,11 +373,8 @@
     .ci.done .cb svg { opacity: 1; transform: scale(1); }
 
     .cl {
-      font-size: 13px;
-      font-weight: 400;
-      color: var(--text);
-      transition: color 0.2s;
-      line-height: 1.5;
+      font-size: 13px; font-weight: 400; color: var(--text);
+      transition: color 0.2s; line-height: 1.5;
     }
 
     .ci.done .cl {
@@ -404,17 +385,13 @@
 
     /* ── 전체완료 배너 ── */
     .done-banner {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 24px;
-      display: none;
+      max-width: 1120px; margin: 0 auto; padding: 0 24px; display: none;
     }
 
     .done-banner.show { display: block; }
 
     .done-inner {
-      text-align: center;
-      padding: 28px;
+      text-align: center; padding: 28px;
       background: var(--green-light);
       border: 1px solid rgba(58,138,92,0.15);
       border-radius: var(--radius);
@@ -425,29 +402,18 @@
     .done-inner p { margin-top: 8px; font-size: 15px; font-weight: 600; color: var(--green); }
 
     .footer {
-      text-align: center;
-      padding: 32px 24px 48px;
-      font-size: 11px;
-      color: var(--text-light);
-      font-weight: 300;
-      opacity: 0.5;
+      text-align: center; padding: 32px 24px 48px;
+      font-size: 11px; color: var(--text-light); font-weight: 300; opacity: 0.5;
     }
 
     /* ── 색상 설정 ── */
     .color-toggle {
-      position: fixed;
-      bottom: 28px; right: 28px;
-      width: 48px; height: 48px;
-      border-radius: 50%;
-      border: none;
+      position: fixed; bottom: 28px; right: 28px;
+      width: 48px; height: 48px; border-radius: 50%; border: none;
       background: var(--card);
       box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      z-index: 100; transition: transform 0.2s, box-shadow 0.2s;
     }
 
     .color-toggle:hover {
@@ -458,51 +424,37 @@
     .color-toggle svg { width: 22px; height: 22px; color: var(--text-mid); }
 
     .color-panel {
-      position: fixed;
-      bottom: 88px; right: 28px;
-      width: 240px;
-      background: var(--card);
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-lg);
-      padding: 20px;
-      z-index: 100;
-      opacity: 0;
+      position: fixed; bottom: 88px; right: 28px; width: 240px;
+      background: var(--card); border-radius: var(--radius);
+      border: 1px solid var(--border); box-shadow: var(--shadow-lg);
+      padding: 20px; z-index: 100; opacity: 0;
       transform: translateY(12px) scale(0.95);
       pointer-events: none;
       transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .color-panel.open {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
+      opacity: 1; transform: translateY(0) scale(1); pointer-events: auto;
     }
 
     .color-panel-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
 
     .color-presets {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 8px; margin-bottom: 16px;
     }
 
     .color-swatch {
-      width: 100%; aspect-ratio: 1;
-      border-radius: 10px;
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s;
-      position: relative;
+      width: 100%; aspect-ratio: 1; border-radius: 10px;
+      border: 2px solid transparent; cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s; position: relative;
     }
 
     .color-swatch:hover { transform: scale(1.12); }
     .color-swatch.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
 
     .color-swatch.active::after {
-      content: '✓';
-      position: absolute; inset: 0;
+      content: '✓'; position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
       font-size: 13px; font-weight: 800; color: white;
       text-shadow: 0 1px 3px rgba(0,0,0,0.3);
@@ -513,10 +465,8 @@
 
     .color-input-wrap {
       flex: 1; display: flex; align-items: center; gap: 8px;
-      padding: 6px 10px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      background: var(--bg);
+      padding: 6px 10px; border: 1px solid var(--border);
+      border-radius: var(--radius-sm); background: var(--bg);
     }
 
     .color-input-wrap input[type="color"] {
@@ -551,12 +501,10 @@
 </head>
 <body>
 <div class="wrap">
-
   <div class="site-header">
     <div class="brand">My Checklist</div>
     <h1>나의 달성 목록</h1>
     <p class="header-sub">항목을 체크하며 하나씩 달성해보세요. 진행 상황은 자동 저장됩니다.</p>
-
     <div class="total-progress">
       <div class="tp-header">
         <span class="tp-label">전체 달성률</span>
@@ -567,6 +515,10 @@
     </div>
   </div>
 
+  <!-- 일일 고정 카드 -->
+  <div class="daily-section" id="dailySection" style="display:none;"></div>
+
+  <!-- 일반 카드 그리드 -->
   <div class="grid" id="grid">
     <div class="loading" id="loadingMsg">
       <div class="loading-spin"></div>
@@ -602,110 +554,117 @@
   </div>
 </div>
 
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  ✏️  data.md 작성 규칙                                   ║
+  ╠══════════════════════════════════════════════════════════╣
+  ║                                                          ║
+  ║  # 이모지 메인카테고리                                     ║
+  ║  ## 서브카테고리                                           ║
+  ║  - 체크항목                                               ║
+  ║                                                          ║
+  ║  ⚡ 첫 번째 # 카테고리는 자동으로                           ║
+  ║     "일일 컨텐츠"로 인식됩니다.                             ║
+  ║     → 상단에 고정 표시                                     ║
+  ║     → 매일 자정(AM 00:00)에 체크 자동 리셋                  ║
+  ║                                                          ║
+  ║  나머지 # 카테고리들은 일반 카드로 표시됩니다.               ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
 <script>
-// ══════════════════════════════════════════════════════
-// 📄 마크다운 파싱: data.md 파일을 읽어서 체크리스트 생성
-// ══════════════════════════════════════════════════════
-//
-// data.md 작성 규칙:
-//
-//   # 이모지 메인카테고리제목
-//   ## 서브카테고리제목
-//   - 체크항목1
-//   - 체크항목2
-//
-// 예시:
-//   # 📘 A 컨텐츠
-//   ## a 지역
-//   - 1번 퀘스트
-//   - 2번 퀘스트
-//   ## b 지역
-//   - 1번 퀘스트
-//
-// ══════════════════════════════════════════════════════
-
 let DATA = [];
+let dailyCat = null;   // 첫 번째 카테고리 = 일일 컨텐츠
+let normalCats = [];   // 나머지 = 일반 카테고리
 
-// 텍스트 → ID 변환 (한글도 지원)
 function toId(text) {
   return text.trim().replace(/[^a-zA-Z0-9가-힣]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').toLowerCase();
 }
 
-// 마크다운 파싱
 function parseMd(md) {
   const lines = md.split('\n');
   const data = [];
-  let currentCat = null;
-  let currentSub = null;
+  let cur = null, curSub = null;
 
-  for (const rawLine of lines) {
-    const line = rawLine.trimEnd();
-
-    // # 메인 카테고리
+  for (const raw of lines) {
+    const line = raw.trimEnd();
     if (/^# /.test(line)) {
       const text = line.replace(/^# /, '').trim();
-      // 첫 글자가 이모지인지 체크 (이모지 + 나머지 텍스트)
-      const emojiMatch = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)/u);
-      const icon = emojiMatch ? emojiMatch[1] : '📁';
-      const title = emojiMatch ? emojiMatch[2] : text;
-
-      currentCat = {
-        id: toId(title),
-        icon: icon,
-        title: title,
-        subs: []
-      };
-      currentSub = null;
-      data.push(currentCat);
-      continue;
-    }
-
-    // ## 서브 카테고리
-    if (/^## /.test(line) && currentCat) {
-      const title = line.replace(/^## /, '').trim();
-      currentSub = {
-        id: toId(currentCat.title + '-' + title),
-        title: title,
-        items: []
-      };
-      currentCat.subs.push(currentSub);
-      continue;
-    }
-
-    // - 체크 항목
-    if (/^[-*] /.test(line.trim()) && currentSub) {
-      const item = line.trim().replace(/^[-*] /, '').trim();
-      if (item) currentSub.items.push(item);
+      const em = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)/u);
+      cur = { id: toId(em ? em[2] : text), icon: em ? em[1] : '📁', title: em ? em[2] : text, subs: [] };
+      curSub = null;
+      data.push(cur);
+    } else if (/^## /.test(line) && cur) {
+      const t = line.replace(/^## /, '').trim();
+      curSub = { id: toId(cur.title + '-' + t), title: t, items: [] };
+      cur.subs.push(curSub);
+    } else if (/^[-*] /.test(line.trim()) && curSub) {
+      const it = line.trim().replace(/^[-*] /, '').trim();
+      if (it) curSub.items.push(it);
     }
   }
-
   return data;
-}
-
-// data.md 불러오기
-async function loadData() {
-  try {
-    const res = await fetch('data.md?t=' + Date.now());
-    if (!res.ok) throw new Error('파일을 찾을 수 없습니다');
-    const md = await res.text();
-    DATA = parseMd(md);
-    render();
-  } catch (err) {
-    document.getElementById('grid').innerHTML =
-      `<div class="error-msg">
-        <p>⚠️ data.md 파일을 불러올 수 없습니다.</p>
-        <p style="margin-top:8px;font-size:12px;color:var(--text-light)">
-          저장소에 data.md 파일이 있는지 확인해주세요.
-        </p>
-      </div>`;
-  }
 }
 
 // ── localStorage ──
 const KEY = 'my-checklist-v2';
+const DAILY_DATE_KEY = 'my-checklist-daily-date';
+
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
 function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
 let st = load();
+
+// ── 일일 리셋 체크 ──
+function checkDailyReset() {
+  if (!dailyCat) return;
+  const today = new Date().toLocaleDateString('ko-KR');
+  const lastDate = localStorage.getItem(DAILY_DATE_KEY);
+
+  if (lastDate !== today) {
+    // 날짜가 바뀌었으면 일일 카테고리의 체크 전부 초기화
+    dailyCat.subs.forEach(sub => {
+      delete st[sub.id];
+    });
+    save(st);
+    localStorage.setItem(DAILY_DATE_KEY, today);
+  }
+}
+
+// 자정에 자동 리셋 타이머
+function scheduleMidnightReset() {
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setDate(midnight.getDate() + 1);
+  midnight.setHours(0, 0, 0, 0);
+  const ms = midnight - now;
+
+  setTimeout(() => {
+    checkDailyReset();
+    render();
+    scheduleMidnightReset(); // 다음 자정 예약
+  }, ms);
+}
+
+async function loadData() {
+  try {
+    const res = await fetch('data.md?t=' + Date.now());
+    if (!res.ok) throw new Error('not found');
+    DATA = parseMd(await res.text());
+
+    // 첫 번째 카테고리 = 일일, 나머지 = 일반
+    if (DATA.length > 0) {
+      dailyCat = DATA[0];
+      normalCats = DATA.slice(1);
+    }
+
+    checkDailyReset();
+    scheduleMidnightReset();
+    render();
+  } catch {
+    document.getElementById('grid').innerHTML =
+      `<div class="error-msg"><p>⚠️ data.md 파일을 불러올 수 없습니다.</p>
+       <p style="margin-top:8px;font-size:12px;color:var(--text-light)">저장소에 data.md 파일이 있는지 확인해주세요.</p></div>`;
+  }
+}
 
 const CHK = `<svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 4.8 9.3 10 2.7"/></svg>`;
 const CHEV = `<svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
@@ -722,52 +681,91 @@ function countCat(cat) {
   return { done, total };
 }
 
+function buildSubsHtml(cat) {
+  let html = '';
+  cat.subs.forEach(sub => {
+    const ss = st[sub.id] || {};
+    const subDone = sub.items.filter((_, i) => ss[i]).length;
+    const subPct = sub.items.length ? Math.round((subDone / sub.items.length) * 100) : 0;
+    const subOk = subDone === sub.items.length && sub.items.length > 0;
+    const subShut = localStorage.getItem('shut-' + sub.id) === '1';
+
+    html += `
+      <div class="sub${subOk ? ' sub-ok' : ''}${subShut ? ' shut' : ''}">
+        <div class="sub-hd" data-sub="${sub.id}">
+          ${SCHEV}
+          <span class="sub-title">${esc(sub.title)}</span>
+          <div class="sub-prog">
+            <div class="sub-bar"><div class="sub-bar-fill" style="width:${subPct}%"></div></div>
+            <span class="sub-num">${subDone}/${sub.items.length}</span>
+          </div>
+        </div>
+        <div class="sub-bd">
+          <div class="clist">
+            ${sub.items.map((it, i) => `
+              <div class="ci${ss[i] ? ' done' : ''}" data-sub="${sub.id}" data-i="${i}">
+                <div class="cb">${CHK}</div>
+                <span class="cl">${esc(it)}</span>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  });
+  return html;
+}
+
 function render() {
-  const g = document.getElementById('grid');
-  g.innerHTML = '';
   let tDone = 0, tAll = 0;
 
-  DATA.forEach((cat, ci) => {
+  // ── 일일 카드 렌더 ──
+  const ds = document.getElementById('dailySection');
+  if (dailyCat) {
+    ds.style.display = '';
+    const { done: dDone, total: dTotal } = countCat(dailyCat);
+    const dPct = dTotal ? Math.round((dDone / dTotal) * 100) : 0;
+    const dOk = dDone === dTotal && dTotal > 0;
+    const dShut = localStorage.getItem('shut-' + dailyCat.id) === '1';
+    tDone += dDone; tAll += dTotal;
+
+    ds.innerHTML = `
+      <div class="daily-card${dOk ? ' ok' : ''}${dShut ? ' shut' : ''}">
+        <div class="card-hd" data-id="${dailyCat.id}">
+          <div class="daily-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            매일 자정 리셋
+          </div>
+          <div class="card-row">
+            <span class="card-icon">${dailyCat.icon}</span>
+            <span class="card-title">${esc(dailyCat.title)}</span>
+            ${CHEV}
+          </div>
+          <div class="card-prog">
+            <div class="card-bar"><div class="card-bar-fill" style="width:${dPct}%"></div></div>
+            <span class="card-num">${dPct}%</span>
+          </div>
+        </div>
+        <div class="card-bd">
+          <div class="daily-subs">${buildSubsHtml(dailyCat)}</div>
+        </div>
+      </div>`;
+  } else {
+    ds.style.display = 'none';
+  }
+
+  // ── 일반 카드 렌더 ──
+  const g = document.getElementById('grid');
+  g.innerHTML = '';
+
+  normalCats.forEach((cat, ci) => {
     const { done: catDone, total: catTotal } = countCat(cat);
     const catPct = catTotal ? Math.round((catDone / catTotal) * 100) : 0;
     const catOk = catDone === catTotal && catTotal > 0;
-    tDone += catDone;
-    tAll += catTotal;
+    tDone += catDone; tAll += catTotal;
 
     const cardShut = localStorage.getItem('shut-' + cat.id) === '1';
     const el = document.createElement('div');
     el.className = 'card' + (catOk ? ' ok' : '') + (cardShut ? ' shut' : '');
     el.style.animationDelay = (0.04 * ci) + 's';
-
-    let subsHtml = '';
-    cat.subs.forEach(sub => {
-      const ss = st[sub.id] || {};
-      const subDone = sub.items.filter((_, i) => ss[i]).length;
-      const subPct = sub.items.length ? Math.round((subDone / sub.items.length) * 100) : 0;
-      const subOk = subDone === sub.items.length && sub.items.length > 0;
-      const subShut = localStorage.getItem('shut-' + sub.id) === '1';
-
-      subsHtml += `
-        <div class="sub${subOk ? ' sub-ok' : ''}${subShut ? ' shut' : ''}">
-          <div class="sub-hd" data-sub="${sub.id}">
-            ${SCHEV}
-            <span class="sub-title">${esc(sub.title)}</span>
-            <div class="sub-prog">
-              <div class="sub-bar"><div class="sub-bar-fill" style="width:${subPct}%"></div></div>
-              <span class="sub-num">${subDone}/${sub.items.length}</span>
-            </div>
-          </div>
-          <div class="sub-bd">
-            <div class="clist">
-              ${sub.items.map((it, i) => `
-                <div class="ci${ss[i] ? ' done' : ''}" data-sub="${sub.id}" data-i="${i}">
-                  <div class="cb">${CHK}</div>
-                  <span class="cl">${esc(it)}</span>
-                </div>`).join('')}
-            </div>
-          </div>
-        </div>`;
-    });
 
     el.innerHTML = `
       <div class="card-hd" data-id="${cat.id}">
@@ -781,7 +779,7 @@ function render() {
           <span class="card-num">${catPct}%</span>
         </div>
       </div>
-      <div class="card-bd">${subsHtml}</div>`;
+      <div class="card-bd">${buildSubsHtml(cat)}</div>`;
     g.appendChild(el);
   });
 
@@ -793,7 +791,8 @@ function render() {
   document.getElementById('doneBanner').classList.toggle('show', tDone === tAll && tAll > 0);
 }
 
-document.getElementById('grid').addEventListener('click', e => {
+// ── 이벤트 (일일 카드 + 일반 카드 공통) ──
+document.addEventListener('click', e => {
   const ci = e.target.closest('.ci');
   if (ci) {
     const { sub, i } = ci.dataset;
@@ -811,14 +810,13 @@ document.getElementById('grid').addEventListener('click', e => {
     return;
   }
   const hd = e.target.closest('.card-hd');
-  if (hd) {
-    const card = hd.closest('.card');
-    card.classList.toggle('shut');
-    localStorage.setItem('shut-' + hd.dataset.id, card.classList.contains('shut') ? '1' : '0');
+  if (hd && (hd.closest('.card') || hd.closest('.daily-card'))) {
+    const wrapper = hd.closest('.card') || hd.closest('.daily-card');
+    wrapper.classList.toggle('shut');
+    localStorage.setItem('shut-' + hd.dataset.id, wrapper.classList.contains('shut') ? '1' : '0');
   }
 });
 
-// 시작!
 loadData();
 
 // ── 배경색 ──
@@ -839,15 +837,13 @@ const BG_KEY = 'my-checklist-bg';
 const presetGrid = document.getElementById('colorPresets');
 const customInput = document.getElementById('customColor');
 const hexLabel = document.getElementById('colorHex');
-const panel = document.getElementById('colorPanel');
-const toggle = document.getElementById('colorToggle');
+const cpanel = document.getElementById('colorPanel');
+const ctoggle = document.getElementById('colorToggle');
 
 PRESETS.forEach(p => {
   const s = document.createElement('div');
-  s.className = 'color-swatch';
-  s.style.background = p.color;
-  s.title = p.name;
-  s.dataset.color = p.color;
+  s.className = 'color-swatch'; s.style.background = p.color;
+  s.title = p.name; s.dataset.color = p.color;
   if (isDark(p.color)) s.style.border = '2px solid rgba(255,255,255,0.15)';
   presetGrid.appendChild(s);
 });
@@ -866,8 +862,7 @@ function applyBg(hex) {
   document.documentElement.style.setProperty('--text-light', dark ? '#857e76' : '#9e9689');
   document.documentElement.style.setProperty('--border', dark ? '#3e3a34' : '#e8e2da');
   document.documentElement.style.setProperty('--border-light', dark ? '#353128' : '#f0ece6');
-  customInput.value = hex;
-  hexLabel.textContent = hex;
+  customInput.value = hex; hexLabel.textContent = hex;
   document.querySelectorAll('.color-swatch').forEach(s => {
     s.classList.toggle('active', s.dataset.color === hex);
   });
@@ -880,9 +875,9 @@ presetGrid.addEventListener('click', e => {
 });
 
 customInput.addEventListener('input', e => applyBg(e.target.value));
-toggle.addEventListener('click', () => panel.classList.toggle('open'));
+ctoggle.addEventListener('click', e => { e.stopPropagation(); cpanel.classList.toggle('open'); });
 document.addEventListener('click', e => {
-  if (!panel.contains(e.target) && !toggle.contains(e.target)) panel.classList.remove('open');
+  if (!cpanel.contains(e.target) && !ctoggle.contains(e.target)) cpanel.classList.remove('open');
 });
 
 const savedBg = localStorage.getItem(BG_KEY);
