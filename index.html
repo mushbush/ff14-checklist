@@ -140,6 +140,7 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 20px;
+      align-items: start;
     }
 
     @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
@@ -150,7 +151,7 @@
       .site-header { padding-top: 32px; }
     }
 
-    /* ── 카드 ── */
+    /* ── 메인 카드 ── */
     .card {
       background: var(--card);
       border-radius: var(--radius);
@@ -197,7 +198,7 @@
       flex-shrink: 0;
     }
 
-    .card.shut .chevron { transform: rotate(-90deg); }
+    .card.shut > .card-hd .chevron { transform: rotate(-90deg); }
 
     .card-prog {
       display: flex;
@@ -231,24 +232,109 @@
 
     .card.ok .card-num { color: var(--green); }
 
-    /* ── 체크리스트 바디 ── */
+    /* ── 카드 바디 (접기) ── */
     .card-bd {
-      max-height: 800px;
+      max-height: 5000px;
       overflow: hidden;
       transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
       opacity: 1;
     }
 
-    .card.shut .card-bd { max-height: 0; opacity: 0; }
+    .card.shut > .card-bd { max-height: 0; opacity: 0; }
 
-    .clist { padding: 0 22px 18px; }
+    /* ── 서브 카테고리 ── */
+    .sub {
+      margin: 0 14px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .sub:first-child { margin-top: 4px; }
+    .sub:last-child { margin-bottom: 16px; }
+
+    .sub.sub-ok { border-color: rgba(58, 138, 92, 0.2); }
+
+    .sub-hd {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .sub-hd:hover { background: var(--border-light); }
+
+    .sub-chevron {
+      width: 16px; height: 16px;
+      color: var(--text-light);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+    }
+
+    .sub.shut .sub-chevron { transform: rotate(-90deg); }
+
+    .sub-title {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-mid);
+    }
+
+    .sub-prog {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sub-bar {
+      width: 48px;
+      height: 4px;
+      background: var(--border-light);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .sub-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: var(--accent);
+      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .sub.sub-ok .sub-bar-fill { background: var(--green); }
+
+    .sub-num {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-light);
+      min-width: 28px;
+      text-align: right;
+    }
+
+    .sub.sub-ok .sub-num { color: var(--green); }
+
+    /* ── 서브 바디 (접기) ── */
+    .sub-bd {
+      max-height: 2000px;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s;
+      opacity: 1;
+    }
+
+    .sub.shut .sub-bd { max-height: 0; opacity: 0; }
+
+    .clist { padding: 0 10px 10px; }
 
     .ci {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 10px 8px;
-      border-radius: var(--radius-sm);
+      padding: 8px 8px;
+      border-radius: 8px;
       cursor: pointer;
       transition: background 0.15s;
     }
@@ -256,8 +342,8 @@
     .ci:hover { background: var(--border-light); }
 
     .cb {
-      width: 22px; height: 22px;
-      border-radius: 7px;
+      width: 20px; height: 20px;
+      border-radius: 6px;
       border: 2px solid var(--border);
       display: flex;
       align-items: center;
@@ -269,7 +355,7 @@
     .ci:hover .cb { border-color: var(--accent); }
 
     .cb svg {
-      width: 12px; height: 12px;
+      width: 11px; height: 11px;
       opacity: 0;
       transform: scale(0);
       transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -283,7 +369,7 @@
     .ci.done .cb svg { opacity: 1; transform: scale(1); }
 
     .cl {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 400;
       color: var(--text);
       transition: color 0.2s;
@@ -400,9 +486,7 @@
       position: relative;
     }
 
-    .color-swatch:hover {
-      transform: scale(1.12);
-    }
+    .color-swatch:hover { transform: scale(1.12); }
 
     .color-swatch.active {
       border-color: var(--accent);
@@ -537,23 +621,30 @@
 </div>
 
 <!--
-  ╔══════════════════════════════════════════════╗
-  ║  ✏️  데이터 수정 안내                        ║
-  ╠══════════════════════════════════════════════╣
-  ║  아래 DATA 배열만 수정하면 됩니다.            ║
-  ║                                              ║
-  ║  형식:                                       ║
-  ║  {                                           ║
-  ║    id: "고유영문ID",                          ║
-  ║    icon: "이모지",                            ║
-  ║    title: "카테고리 이름",                     ║
-  ║    items: ["할일1", "할일2", ...]              ║
-  ║  }                                           ║
-  ║                                              ║
-  ║  - id는 영문으로, 카테고리마다 다르게          ║
-  ║  - 항목 추가/삭제/수정 자유롭게               ║
-  ║  - 기존 체크 기록은 id 기준으로 유지됩니다     ║
-  ╚══════════════════════════════════════════════╝
+  ╔══════════════════════════════════════════════════════╗
+  ║  ✏️  데이터 수정 안내                                ║
+  ╠══════════════════════════════════════════════════════╣
+  ║  아래 DATA 배열만 수정하면 됩니다.                    ║
+  ║                                                      ║
+  ║  형식:                                               ║
+  ║  {                                                   ║
+  ║    id: "고유영문ID",                                  ║
+  ║    icon: "이모지",                                    ║
+  ║    title: "메인 카테고리 이름",                        ║
+  ║    subs: [                                           ║
+  ║      {                                               ║
+  ║        id: "서브ID",                                  ║
+  ║        title: "서브 카테고리 이름",                    ║
+  ║        items: ["할일1", "할일2", ...]                  ║
+  ║      },                                              ║
+  ║      ...                                             ║
+  ║    ]                                                 ║
+  ║  }                                                   ║
+  ║                                                      ║
+  ║  - id는 영문으로, 모두 다르게                          ║
+  ║  - 메인/서브 카테고리, 항목 추가/삭제 자유롭게          ║
+  ║  - 기존 체크 기록은 id 기준으로 유지됩니다              ║
+  ╚══════════════════════════════════════════════════════╝
 -->
 <script>
 // ═══════════════════════════════════════════
@@ -563,155 +654,272 @@ const DATA = [
   {
     id: "cat-a",
     icon: "📘",
-    title: "카테고리 A",
-    items: [
-      "A 항목 1 - 더미 데이터",
-      "A 항목 2 - 더미 데이터",
-      "A 항목 3 - 더미 데이터",
-      "A 항목 4 - 더미 데이터",
+    title: "A 컨텐츠",
+    subs: [
+      {
+        id: "a-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "a-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "a-region3",
+        title: "c 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-b",
     icon: "📗",
-    title: "카테고리 B",
-    items: [
-      "B 항목 1 - 더미 데이터",
-      "B 항목 2 - 더미 데이터",
-      "B 항목 3 - 더미 데이터",
-      "B 항목 4 - 더미 데이터",
-      "B 항목 5 - 더미 데이터",
+    title: "B 컨텐츠",
+    subs: [
+      {
+        id: "b-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미", "4번 - 더미"]
+      },
+      {
+        id: "b-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-c",
     icon: "📙",
-    title: "카테고리 C",
-    items: [
-      "C 항목 1 - 더미 데이터",
-      "C 항목 2 - 더미 데이터",
-      "C 항목 3 - 더미 데이터",
+    title: "C 컨텐츠",
+    subs: [
+      {
+        id: "c-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "c-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "c-region3",
+        title: "c 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미", "4번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-d",
     icon: "📕",
-    title: "카테고리 D",
-    items: [
-      "D 항목 1 - 더미 데이터",
-      "D 항목 2 - 더미 데이터",
-      "D 항목 3 - 더미 데이터",
-      "D 항목 4 - 더미 데이터",
-      "D 항목 5 - 더미 데이터",
-      "D 항목 6 - 더미 데이터",
+    title: "D 컨텐츠",
+    subs: [
+      {
+        id: "d-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "d-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
+      {
+        id: "d-region3",
+        title: "c 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "d-region4",
+        title: "d 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-e",
     icon: "📒",
-    title: "카테고리 E",
-    items: [
-      "E 항목 1 - 더미 데이터",
-      "E 항목 2 - 더미 데이터",
-      "E 항목 3 - 더미 데이터",
-      "E 항목 4 - 더미 데이터",
+    title: "E 컨텐츠",
+    subs: [
+      {
+        id: "e-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "e-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-f",
     icon: "🗂️",
-    title: "카테고리 F",
-    items: [
-      "F 항목 1 - 더미 데이터",
-      "F 항목 2 - 더미 데이터",
-      "F 항목 3 - 더미 데이터",
-      "F 항목 4 - 더미 데이터",
-      "F 항목 5 - 더미 데이터",
+    title: "F 컨텐츠",
+    subs: [
+      {
+        id: "f-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
+      {
+        id: "f-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "f-region3",
+        title: "c 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-g",
     icon: "📎",
-    title: "카테고리 G",
-    items: [
-      "G 항목 1 - 더미 데이터",
-      "G 항목 2 - 더미 데이터",
-      "G 항목 3 - 더미 데이터",
+    title: "G 컨텐츠",
+    subs: [
+      {
+        id: "g-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "g-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-h",
     icon: "📌",
-    title: "카테고리 H",
-    items: [
-      "H 항목 1 - 더미 데이터",
-      "H 항목 2 - 더미 데이터",
-      "H 항목 3 - 더미 데이터",
-      "H 항목 4 - 더미 데이터",
+    title: "H 컨텐츠",
+    subs: [
+      {
+        id: "h-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미", "4번 - 더미"]
+      },
+      {
+        id: "h-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
   {
     id: "cat-i",
     icon: "🏷️",
-    title: "카테고리 I",
-    items: [
-      "I 항목 1 - 더미 데이터",
-      "I 항목 2 - 더미 데이터",
-      "I 항목 3 - 더미 데이터",
-      "I 항목 4 - 더미 데이터",
-      "I 항목 5 - 더미 데이터",
+    title: "I 컨텐츠",
+    subs: [
+      {
+        id: "i-region1",
+        title: "a 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "i-region2",
+        title: "b 지역",
+        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
+      },
+      {
+        id: "i-region3",
+        title: "c 지역",
+        items: ["1번 - 더미", "2번 - 더미"]
+      },
     ]
   },
 ];
 
 // ── localStorage 기반 개인 데이터 ──
-const KEY = 'my-checklist-v1';
+const KEY = 'my-checklist-v2';
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
 function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
 let st = load();
 
 const CHK = `<svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 4.8 9.3 10 2.7"/></svg>`;
 const CHEV = `<svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
+const SCHEV = `<svg class="sub-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
 
 function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+// 카테고리 전체 아이템 수 계산
+function countCat(cat) {
+  let done = 0, total = 0;
+  cat.subs.forEach(sub => {
+    const ss = st[sub.id] || {};
+    sub.items.forEach((_, i) => { total++; if (ss[i]) done++; });
+  });
+  return { done, total };
+}
 
 function render() {
   const g = document.getElementById('grid');
   g.innerHTML = '';
   let tDone = 0, tAll = 0;
 
-  DATA.forEach((c, ci) => {
-    const cs = st[c.id] || {};
-    const dn = c.items.filter((_, i) => cs[i]).length;
-    const pct = c.items.length ? Math.round((dn / c.items.length) * 100) : 0;
-    const ok = dn === c.items.length && c.items.length > 0;
-    tDone += dn; tAll += c.items.length;
+  DATA.forEach((cat, ci) => {
+    const { done: catDone, total: catTotal } = countCat(cat);
+    const catPct = catTotal ? Math.round((catDone / catTotal) * 100) : 0;
+    const catOk = catDone === catTotal && catTotal > 0;
+    tDone += catDone;
+    tAll += catTotal;
 
-    const shut = localStorage.getItem('shut-' + c.id) === '1';
+    const cardShut = localStorage.getItem('shut-' + cat.id) === '1';
     const el = document.createElement('div');
-    el.className = 'card' + (ok ? ' ok' : '') + (shut ? ' shut' : '');
+    el.className = 'card' + (catOk ? ' ok' : '') + (cardShut ? ' shut' : '');
     el.style.animationDelay = (0.04 * ci) + 's';
 
+    // 서브 카테고리 HTML 생성
+    let subsHtml = '';
+    cat.subs.forEach(sub => {
+      const ss = st[sub.id] || {};
+      const subDone = sub.items.filter((_, i) => ss[i]).length;
+      const subPct = sub.items.length ? Math.round((subDone / sub.items.length) * 100) : 0;
+      const subOk = subDone === sub.items.length && sub.items.length > 0;
+      const subShut = localStorage.getItem('shut-' + sub.id) === '1';
+
+      subsHtml += `
+        <div class="sub${subOk ? ' sub-ok' : ''}${subShut ? ' shut' : ''}">
+          <div class="sub-hd" data-sub="${sub.id}">
+            ${SCHEV}
+            <span class="sub-title">${esc(sub.title)}</span>
+            <div class="sub-prog">
+              <div class="sub-bar"><div class="sub-bar-fill" style="width:${subPct}%"></div></div>
+              <span class="sub-num">${subDone}/${sub.items.length}</span>
+            </div>
+          </div>
+          <div class="sub-bd">
+            <div class="clist">
+              ${sub.items.map((it, i) => `
+                <div class="ci${ss[i] ? ' done' : ''}" data-sub="${sub.id}" data-i="${i}">
+                  <div class="cb">${CHK}</div>
+                  <span class="cl">${esc(it)}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+        </div>`;
+    });
+
     el.innerHTML = `
-      <div class="card-hd" data-id="${c.id}">
+      <div class="card-hd" data-id="${cat.id}">
         <div class="card-row">
-          <span class="card-icon">${c.icon}</span>
-          <span class="card-title">${esc(c.title)}</span>
+          <span class="card-icon">${cat.icon}</span>
+          <span class="card-title">${esc(cat.title)}</span>
           ${CHEV}
         </div>
         <div class="card-prog">
-          <div class="card-bar"><div class="card-bar-fill" style="width:${pct}%"></div></div>
-          <span class="card-num">${pct}%</span>
+          <div class="card-bar"><div class="card-bar-fill" style="width:${catPct}%"></div></div>
+          <span class="card-num">${catPct}%</span>
         </div>
       </div>
       <div class="card-bd">
-        <div class="clist">
-          ${c.items.map((it, i) => `
-            <div class="ci${cs[i] ? ' done' : ''}" data-id="${c.id}" data-i="${i}">
-              <div class="cb">${CHK}</div>
-              <span class="cl">${esc(it)}</span>
-            </div>`).join('')}
-        </div>
+        ${subsHtml}
       </div>`;
     g.appendChild(el);
   });
@@ -722,20 +930,31 @@ function render() {
   document.getElementById('tStats').innerHTML =
     `<span>완료 <strong>${tDone}</strong> / ${tAll}</span><span>카테고리 <strong>${DATA.length}</strong>개</span>`;
 
-  const bn = document.getElementById('doneBanner');
-  bn.classList.toggle('show', tDone === tAll && tAll > 0);
+  document.getElementById('doneBanner').classList.toggle('show', tDone === tAll && tAll > 0);
 }
 
 document.getElementById('grid').addEventListener('click', e => {
+  // 체크박스 토글
   const ci = e.target.closest('.ci');
   if (ci) {
-    const { id, i } = ci.dataset;
-    if (!st[id]) st[id] = {};
-    st[id][i] = !st[id][i];
+    const { sub, i } = ci.dataset;
+    if (!st[sub]) st[sub] = {};
+    st[sub][i] = !st[sub][i];
     save(st);
     render();
     return;
   }
+
+  // 서브 카테고리 접기/펴기
+  const subHd = e.target.closest('.sub-hd');
+  if (subHd) {
+    const subEl = subHd.closest('.sub');
+    subEl.classList.toggle('shut');
+    localStorage.setItem('shut-' + subHd.dataset.sub, subEl.classList.contains('shut') ? '1' : '0');
+    return;
+  }
+
+  // 메인 카드 접기/펴기
   const hd = e.target.closest('.card-hd');
   if (hd) {
     const card = hd.closest('.card');
@@ -794,8 +1013,7 @@ function applyBg(hex) {
   customInput.value = hex;
   hexLabel.textContent = hex;
   document.querySelectorAll('.color-swatch').forEach(s => {
-    const match = s.dataset.color === hex;
-    s.classList.toggle('active', match);
+    s.classList.toggle('active', s.dataset.color === hex);
   });
   localStorage.setItem(BG_KEY, hex);
 }
@@ -806,9 +1024,7 @@ presetGrid.addEventListener('click', e => {
 });
 
 customInput.addEventListener('input', e => applyBg(e.target.value));
-
 toggle.addEventListener('click', () => panel.classList.toggle('open'));
-
 document.addEventListener('click', e => {
   if (!panel.contains(e.target) && !toggle.contains(e.target)) panel.classList.remove('open');
 });
