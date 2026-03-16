@@ -132,6 +132,34 @@
 
     .tp-stats strong { color: var(--text-mid); font-weight: 600; }
 
+    /* ── 로딩 ── */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-light);
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    .loading-spin {
+      display: inline-block;
+      width: 24px; height: 24px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 12px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-msg {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--accent);
+      font-size: 14px;
+    }
+
     /* ── 카드 그리드 ── */
     .grid {
       max-width: 1120px;
@@ -232,7 +260,6 @@
 
     .card.ok .card-num { color: var(--green); }
 
-    /* ── 카드 바디 (접기) ── */
     .card-bd {
       max-height: 5000px;
       overflow: hidden;
@@ -291,8 +318,7 @@
     }
 
     .sub-bar {
-      width: 48px;
-      height: 4px;
+      width: 48px; height: 4px;
       background: var(--border-light);
       border-radius: 100px;
       overflow: hidden;
@@ -308,8 +334,7 @@
     .sub.sub-ok .sub-bar-fill { background: var(--green); }
 
     .sub-num {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 11px; font-weight: 600;
       color: var(--text-light);
       min-width: 28px;
       text-align: right;
@@ -317,7 +342,6 @@
 
     .sub.sub-ok .sub-num { color: var(--green); }
 
-    /* ── 서브 바디 (접기) ── */
     .sub-bd {
       max-height: 2000px;
       overflow: hidden;
@@ -361,11 +385,7 @@
       transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .ci.done .cb {
-      background: var(--green);
-      border-color: var(--green);
-    }
-
+    .ci.done .cb { background: var(--green); border-color: var(--green); }
     .ci.done .cb svg { opacity: 1; transform: scale(1); }
 
     .cl {
@@ -413,13 +433,11 @@
       opacity: 0.5;
     }
 
-    /* ── 색상 설정 버튼 & 패널 ── */
+    /* ── 색상 설정 ── */
     .color-toggle {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
-      width: 48px;
-      height: 48px;
+      bottom: 28px; right: 28px;
+      width: 48px; height: 48px;
       border-radius: 50%;
       border: none;
       background: var(--card);
@@ -441,8 +459,7 @@
 
     .color-panel {
       position: fixed;
-      bottom: 88px;
-      right: 28px;
+      bottom: 88px; right: 28px;
       width: 240px;
       background: var(--card);
       border-radius: var(--radius);
@@ -462,12 +479,7 @@
       pointer-events: auto;
     }
 
-    .color-panel-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 14px;
-    }
+    .color-panel-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
 
     .color-presets {
       display: grid;
@@ -477,53 +489,30 @@
     }
 
     .color-swatch {
-      width: 100%;
-      aspect-ratio: 1;
+      width: 100%; aspect-ratio: 1;
       border-radius: 10px;
       border: 2px solid transparent;
       cursor: pointer;
-      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      transition: transform 0.15s, border-color 0.15s;
       position: relative;
     }
 
     .color-swatch:hover { transform: scale(1.12); }
-
-    .color-swatch.active {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 2px var(--accent-light);
-    }
+    .color-swatch.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
 
     .color-swatch.active::after {
       content: '✓';
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      font-weight: 800;
-      color: white;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: white;
       text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
 
-    .color-custom-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .color-custom-row label {
-      font-size: 12px;
-      color: var(--text-light);
-      font-weight: 400;
-      white-space: nowrap;
-    }
+    .color-custom-row { display: flex; align-items: center; gap: 10px; }
+    .color-custom-row label { font-size: 12px; color: var(--text-light); white-space: nowrap; }
 
     .color-input-wrap {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      flex: 1; display: flex; align-items: center; gap: 8px;
       padding: 6px 10px;
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -531,25 +520,14 @@
     }
 
     .color-input-wrap input[type="color"] {
-      width: 24px;
-      height: 24px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      padding: 0;
-      background: none;
-      -webkit-appearance: none;
+      width: 24px; height: 24px; border: none; border-radius: 6px;
+      cursor: pointer; padding: 0; background: none; -webkit-appearance: none;
     }
 
     .color-input-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
     .color-input-wrap input[type="color"]::-webkit-color-swatch { border: 1px solid rgba(0,0,0,0.1); border-radius: 5px; }
 
-    .color-hex {
-      font-size: 12px;
-      color: var(--text-mid);
-      font-family: monospace;
-      font-weight: 600;
-    }
+    .color-hex { font-size: 12px; color: var(--text-mid); font-family: monospace; font-weight: 600; }
 
     @media (max-width: 560px) {
       .color-toggle { bottom: 20px; right: 20px; width: 44px; height: 44px; }
@@ -589,7 +567,12 @@
     </div>
   </div>
 
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid">
+    <div class="loading" id="loadingMsg">
+      <div class="loading-spin"></div>
+      <p>데이터를 불러오는 중...</p>
+    </div>
+  </div>
 
   <div class="done-banner" id="doneBanner">
     <div class="done-inner">
@@ -600,7 +583,6 @@
 
   <p class="footer">체크 데이터는 이 브라우저에만 저장되며, 다른 사람에게 절대 공유되지 않습니다.</p>
 
-  <!-- 색상 설정 -->
   <button class="color-toggle" id="colorToggle" aria-label="배경색 변경">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
@@ -620,223 +602,106 @@
   </div>
 </div>
 
-<!--
-  ╔══════════════════════════════════════════════════════╗
-  ║  ✏️  데이터 수정 안내                                ║
-  ╠══════════════════════════════════════════════════════╣
-  ║  아래 DATA 배열만 수정하면 됩니다.                    ║
-  ║                                                      ║
-  ║  형식:                                               ║
-  ║  {                                                   ║
-  ║    id: "고유영문ID",                                  ║
-  ║    icon: "이모지",                                    ║
-  ║    title: "메인 카테고리 이름",                        ║
-  ║    subs: [                                           ║
-  ║      {                                               ║
-  ║        id: "서브ID",                                  ║
-  ║        title: "서브 카테고리 이름",                    ║
-  ║        items: ["할일1", "할일2", ...]                  ║
-  ║      },                                              ║
-  ║      ...                                             ║
-  ║    ]                                                 ║
-  ║  }                                                   ║
-  ║                                                      ║
-  ║  - id는 영문으로, 모두 다르게                          ║
-  ║  - 메인/서브 카테고리, 항목 추가/삭제 자유롭게          ║
-  ║  - 기존 체크 기록은 id 기준으로 유지됩니다              ║
-  ╚══════════════════════════════════════════════════════╝
--->
 <script>
-// ═══════════════════════════════════════════
-// 📋 여기만 수정하세요! 더미 데이터 (나중에 실제 항목으로 교체)
-// ═══════════════════════════════════════════
-const DATA = [
-  {
-    id: "cat-a",
-    icon: "📘",
-    title: "A 컨텐츠",
-    subs: [
-      {
-        id: "a-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "a-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "a-region3",
-        title: "c 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-b",
-    icon: "📗",
-    title: "B 컨텐츠",
-    subs: [
-      {
-        id: "b-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미", "4번 - 더미"]
-      },
-      {
-        id: "b-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-c",
-    icon: "📙",
-    title: "C 컨텐츠",
-    subs: [
-      {
-        id: "c-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "c-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "c-region3",
-        title: "c 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미", "4번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-d",
-    icon: "📕",
-    title: "D 컨텐츠",
-    subs: [
-      {
-        id: "d-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "d-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-      {
-        id: "d-region3",
-        title: "c 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "d-region4",
-        title: "d 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-e",
-    icon: "📒",
-    title: "E 컨텐츠",
-    subs: [
-      {
-        id: "e-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "e-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-f",
-    icon: "🗂️",
-    title: "F 컨텐츠",
-    subs: [
-      {
-        id: "f-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-      {
-        id: "f-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "f-region3",
-        title: "c 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-g",
-    icon: "📎",
-    title: "G 컨텐츠",
-    subs: [
-      {
-        id: "g-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "g-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-h",
-    icon: "📌",
-    title: "H 컨텐츠",
-    subs: [
-      {
-        id: "h-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미", "4번 - 더미"]
-      },
-      {
-        id: "h-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-  {
-    id: "cat-i",
-    icon: "🏷️",
-    title: "I 컨텐츠",
-    subs: [
-      {
-        id: "i-region1",
-        title: "a 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "i-region2",
-        title: "b 지역",
-        items: ["1번 - 더미", "2번 - 더미", "3번 - 더미"]
-      },
-      {
-        id: "i-region3",
-        title: "c 지역",
-        items: ["1번 - 더미", "2번 - 더미"]
-      },
-    ]
-  },
-];
+// ══════════════════════════════════════════════════════
+// 📄 마크다운 파싱: data.md 파일을 읽어서 체크리스트 생성
+// ══════════════════════════════════════════════════════
+//
+// data.md 작성 규칙:
+//
+//   # 이모지 메인카테고리제목
+//   ## 서브카테고리제목
+//   - 체크항목1
+//   - 체크항목2
+//
+// 예시:
+//   # 📘 A 컨텐츠
+//   ## a 지역
+//   - 1번 퀘스트
+//   - 2번 퀘스트
+//   ## b 지역
+//   - 1번 퀘스트
+//
+// ══════════════════════════════════════════════════════
 
-// ── localStorage 기반 개인 데이터 ──
+let DATA = [];
+
+// 텍스트 → ID 변환 (한글도 지원)
+function toId(text) {
+  return text.trim().replace(/[^a-zA-Z0-9가-힣]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '').toLowerCase();
+}
+
+// 마크다운 파싱
+function parseMd(md) {
+  const lines = md.split('\n');
+  const data = [];
+  let currentCat = null;
+  let currentSub = null;
+
+  for (const rawLine of lines) {
+    const line = rawLine.trimEnd();
+
+    // # 메인 카테고리
+    if (/^# /.test(line)) {
+      const text = line.replace(/^# /, '').trim();
+      // 첫 글자가 이모지인지 체크 (이모지 + 나머지 텍스트)
+      const emojiMatch = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)/u);
+      const icon = emojiMatch ? emojiMatch[1] : '📁';
+      const title = emojiMatch ? emojiMatch[2] : text;
+
+      currentCat = {
+        id: toId(title),
+        icon: icon,
+        title: title,
+        subs: []
+      };
+      currentSub = null;
+      data.push(currentCat);
+      continue;
+    }
+
+    // ## 서브 카테고리
+    if (/^## /.test(line) && currentCat) {
+      const title = line.replace(/^## /, '').trim();
+      currentSub = {
+        id: toId(currentCat.title + '-' + title),
+        title: title,
+        items: []
+      };
+      currentCat.subs.push(currentSub);
+      continue;
+    }
+
+    // - 체크 항목
+    if (/^[-*] /.test(line.trim()) && currentSub) {
+      const item = line.trim().replace(/^[-*] /, '').trim();
+      if (item) currentSub.items.push(item);
+    }
+  }
+
+  return data;
+}
+
+// data.md 불러오기
+async function loadData() {
+  try {
+    const res = await fetch('data.md?t=' + Date.now());
+    if (!res.ok) throw new Error('파일을 찾을 수 없습니다');
+    const md = await res.text();
+    DATA = parseMd(md);
+    render();
+  } catch (err) {
+    document.getElementById('grid').innerHTML =
+      `<div class="error-msg">
+        <p>⚠️ data.md 파일을 불러올 수 없습니다.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--text-light)">
+          저장소에 data.md 파일이 있는지 확인해주세요.
+        </p>
+      </div>`;
+  }
+}
+
+// ── localStorage ──
 const KEY = 'my-checklist-v2';
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
 function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
@@ -848,7 +713,6 @@ const SCHEV = `<svg class="sub-chevron" viewBox="0 0 20 20" fill="none" stroke="
 
 function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 
-// 카테고리 전체 아이템 수 계산
 function countCat(cat) {
   let done = 0, total = 0;
   cat.subs.forEach(sub => {
@@ -875,7 +739,6 @@ function render() {
     el.className = 'card' + (catOk ? ' ok' : '') + (cardShut ? ' shut' : '');
     el.style.animationDelay = (0.04 * ci) + 's';
 
-    // 서브 카테고리 HTML 생성
     let subsHtml = '';
     cat.subs.forEach(sub => {
       const ss = st[sub.id] || {};
@@ -918,9 +781,7 @@ function render() {
           <span class="card-num">${catPct}%</span>
         </div>
       </div>
-      <div class="card-bd">
-        ${subsHtml}
-      </div>`;
+      <div class="card-bd">${subsHtml}</div>`;
     g.appendChild(el);
   });
 
@@ -929,12 +790,10 @@ function render() {
   document.getElementById('tBar').style.width = tp + '%';
   document.getElementById('tStats').innerHTML =
     `<span>완료 <strong>${tDone}</strong> / ${tAll}</span><span>카테고리 <strong>${DATA.length}</strong>개</span>`;
-
   document.getElementById('doneBanner').classList.toggle('show', tDone === tAll && tAll > 0);
 }
 
 document.getElementById('grid').addEventListener('click', e => {
-  // 체크박스 토글
   const ci = e.target.closest('.ci');
   if (ci) {
     const { sub, i } = ci.dataset;
@@ -944,8 +803,6 @@ document.getElementById('grid').addEventListener('click', e => {
     render();
     return;
   }
-
-  // 서브 카테고리 접기/펴기
   const subHd = e.target.closest('.sub-hd');
   if (subHd) {
     const subEl = subHd.closest('.sub');
@@ -953,8 +810,6 @@ document.getElementById('grid').addEventListener('click', e => {
     localStorage.setItem('shut-' + subHd.dataset.sub, subEl.classList.contains('shut') ? '1' : '0');
     return;
   }
-
-  // 메인 카드 접기/펴기
   const hd = e.target.closest('.card-hd');
   if (hd) {
     const card = hd.closest('.card');
@@ -963,9 +818,10 @@ document.getElementById('grid').addEventListener('click', e => {
   }
 });
 
-render();
+// 시작!
+loadData();
 
-// ── 배경색 커스터마이징 ──
+// ── 배경색 ──
 const PRESETS = [
   { color: '#f5f0eb', name: '기본' },
   { color: '#fef9ef', name: '크림' },
