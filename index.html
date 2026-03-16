@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Checklist</title>
+  <title>FF14 Checklist</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;600;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
   <style>
@@ -598,8 +598,47 @@ function render() {
 }
 
 // ── 이벤트 ──
+function updateProgress() {
+  // 서브, 카드, 전체 프로그레스를 DOM에서 직접 업데이트
+  let tDone = 0, tAll = 0;
+
+  document.querySelectorAll('.card').forEach((card, ci) => {
+    const cat = DATA[ci];
+    if (!cat) return;
+    let catDone = 0, catTotal = 0;
+
+    card.querySelectorAll('.sub').forEach((subEl, si) => {
+      const sub = cat.subs[si];
+      if (!sub) return;
+      const ss = st[sub.id] || {};
+      const dn = sub.items.filter((_, i) => ss[i]).length;
+      const pct = sub.items.length ? Math.round((dn / sub.items.length) * 100) : 0;
+      const ok = dn === sub.items.length && sub.items.length > 0;
+      catDone += dn; catTotal += sub.items.length;
+
+      subEl.querySelector('.sub-bar-fill').style.width = pct + '%';
+      subEl.querySelector('.sub-num').textContent = dn + '/' + sub.items.length;
+      subEl.classList.toggle('sub-ok', ok);
+    });
+
+    const catPct = catTotal ? Math.round((catDone / catTotal) * 100) : 0;
+    const catOk = catDone === catTotal && catTotal > 0;
+    card.querySelector('.card-bar-fill').style.width = catPct + '%';
+    card.querySelector('.card-num').textContent = catPct + '%';
+    card.classList.toggle('ok', catOk);
+
+    tDone += catDone; tAll += catTotal;
+  });
+
+  const tp = tAll ? Math.round((tDone / tAll) * 100) : 0;
+  document.getElementById('tPct').textContent = tp + '%';
+  document.getElementById('tBar').style.width = tp + '%';
+  document.getElementById('tStats').innerHTML =
+    `<span>완료 <strong>${tDone}</strong> / ${tAll}</span><span>카테고리 <strong>${DATA.length}</strong>개</span>`;
+  document.getElementById('doneBanner').classList.toggle('show', tDone === tAll && tAll > 0);
+}
+
 document.addEventListener('click', e => {
-  // 색상 패널은 별도 처리
   if (e.target.closest('.color-toggle') || e.target.closest('.color-panel')) return;
 
   const ci = e.target.closest('.ci');
@@ -607,7 +646,11 @@ document.addEventListener('click', e => {
     const { sub, i } = ci.dataset;
     if (!st[sub]) st[sub] = {};
     st[sub][i] = !st[sub][i];
-    save(st); render(); return;
+    save(st);
+    // 체크 항목만 토글 (전체 다시 그리지 않음)
+    ci.classList.toggle('done', !!st[sub][i]);
+    updateProgress();
+    return;
   }
   const subHd = e.target.closest('.sub-hd');
   if (subHd) {
