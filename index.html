@@ -22,378 +22,303 @@
       --daily-border: rgba(59, 111, 181, 0.25);
       --border: #e8e2da;
       --border-light: #f0ece6;
-      --shadow-sm: 0 1px 3px rgba(26, 23, 20, 0.04);
-      --shadow-md: 0 4px 16px rgba(26, 23, 20, 0.06);
-      --shadow-lg: 0 8px 32px rgba(26, 23, 20, 0.08);
+      --shadow-sm: 0 1px 3px rgba(26,23,20,0.04);
+      --shadow-md: 0 4px 16px rgba(26,23,20,0.06);
+      --shadow-lg: 0 8px 32px rgba(26,23,20,0.08);
       --radius: 16px;
       --radius-sm: 10px;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--bg); color: var(--text);
-      min-height: 100vh; -webkit-font-smoothing: antialiased;
+      font-family:'Noto Sans KR',sans-serif;
+      background:var(--bg); color:var(--text);
+      min-height:100vh; -webkit-font-smoothing:antialiased;
     }
 
     body::before {
-      content: ''; position: fixed; inset: 0;
-      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-      pointer-events: none; z-index: 0;
+      content:''; position:fixed; inset:0;
+      background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events:none; z-index:0;
     }
 
-    .wrap { position: relative; z-index: 1; }
+    .wrap { position:relative; z-index:1; }
 
     .site-header {
-      padding: 48px 24px 0; max-width: 1120px; margin: 0 auto;
-      animation: fadeDown 0.6s ease;
+      padding:48px 24px 0; max-width:1120px; margin:0 auto;
+      animation:fadeDown 0.6s ease;
     }
 
     .brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 13px; font-weight: 700;
-      letter-spacing: 3px; text-transform: uppercase; color: var(--accent);
+      font-family:'Playfair Display',serif;
+      font-size:13px; font-weight:700;
+      letter-spacing:3px; text-transform:uppercase; color:var(--accent);
     }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 36px; font-weight: 800; color: var(--text);
-      margin-top: 8px; line-height: 1.2;
+      font-family:'Playfair Display',serif;
+      font-size:36px; font-weight:800; color:var(--text);
+      margin-top:8px; line-height:1.2;
     }
 
-    .header-sub { font-size: 14px; color: var(--text-light); font-weight: 300; margin-top: 8px; }
+    .header-sub { font-size:14px; color:var(--text-light); font-weight:300; margin-top:8px; }
 
     .total-progress {
-      margin-top: 32px; padding: 24px 28px;
-      background: var(--card); border-radius: var(--radius);
-      border: 1px solid var(--border); box-shadow: var(--shadow-md);
-      animation: fadeUp 0.5s ease 0.1s both;
+      margin-top:32px; padding:24px 28px;
+      background:var(--card); border-radius:var(--radius);
+      border:1px solid var(--border); box-shadow:var(--shadow-md);
+      animation:fadeUp 0.5s ease 0.1s both;
     }
 
-    .tp-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
-    .tp-label { font-size: 14px; font-weight: 600; color: var(--text-mid); }
+    .tp-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+    .tp-label { font-size:14px; font-weight:600; color:var(--text-mid); }
+    .tp-pct { font-family:'Playfair Display',serif; font-size:28px; font-weight:800; color:var(--accent); }
+    .bar-bg { height:10px; background:var(--border-light); border-radius:100px; overflow:hidden; }
+    .bar-fill { height:100%; background:linear-gradient(90deg,var(--accent),#e0845a); border-radius:100px; transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1); width:0%; }
+    .tp-stats { display:flex; gap:24px; margin-top:14px; font-size:12px; color:var(--text-light); }
+    .tp-stats strong { color:var(--text-mid); font-weight:600; }
 
-    .tp-pct {
-      font-family: 'Playfair Display', serif;
-      font-size: 28px; font-weight: 800; color: var(--accent);
+    .loading { text-align:center; padding:60px 20px; color:var(--text-light); font-size:14px; font-weight:300; }
+    .loading-spin { display:inline-block; width:24px; height:24px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin-bottom:12px; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .error-msg { text-align:center; padding:40px 20px; color:var(--accent); font-size:14px; }
+
+    /* ── 카드 목록 (가로 한줄씩) ── */
+    .card-list {
+      max-width:1120px; margin:32px auto 0; padding:0 24px 40px;
+      display:flex; flex-direction:column; gap:20px;
     }
 
-    .bar-bg { height: 10px; background: var(--border-light); border-radius: 100px; overflow: hidden; }
-
-    .bar-fill {
-      height: 100%; background: linear-gradient(90deg, var(--accent), #e0845a);
-      border-radius: 100px; transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); width: 0%;
-    }
-
-    .tp-stats { display: flex; gap: 24px; margin-top: 14px; font-size: 12px; color: var(--text-light); }
-    .tp-stats strong { color: var(--text-mid); font-weight: 600; }
-
-    .loading {
-      text-align: center; padding: 60px 20px;
-      color: var(--text-light); font-size: 14px; font-weight: 300;
-      grid-column: 1 / -1;
-    }
-
-    .loading-spin {
-      display: inline-block; width: 24px; height: 24px;
-      border: 3px solid var(--border); border-top-color: var(--accent);
-      border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .error-msg {
-      text-align: center; padding: 40px 20px;
-      color: var(--accent); font-size: 14px; grid-column: 1 / -1;
-    }
-
-    /* ── 카드 그리드 ── */
-    .grid {
-      max-width: 1120px; margin: 32px auto 0; padding: 0 24px 40px;
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 20px; align-items: start;
-    }
-
-    @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) {
-      .grid { grid-template-columns: 1fr; gap: 16px; }
-      h1 { font-size: 28px; }
-      .tp-pct { font-size: 24px; }
-      .site-header { padding-top: 32px; }
-    }
-
-    /* ── 카드 공통 ── */
+    /* ── 카드 ── */
     .card {
-      background: var(--card); border-radius: var(--radius);
-      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
-      overflow: hidden;
-      transition: box-shadow 0.25s, transform 0.25s;
-      animation: fadeUp 0.5s ease both;
+      background:var(--card); border-radius:var(--radius);
+      border:1px solid var(--border); box-shadow:var(--shadow-sm);
+      overflow:hidden; transition:box-shadow 0.25s;
+      animation:fadeUp 0.5s ease both;
     }
 
-    .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .card:hover { box-shadow:var(--shadow-lg); }
 
     .card-hd {
-      padding: 20px 22px 16px; cursor: pointer; user-select: none;
-      transition: background 0.15s;
+      padding:20px 24px 16px; cursor:pointer; user-select:none;
+      transition:background 0.15s;
     }
 
-    .card-hd:hover { background: var(--accent-light); }
+    .card-hd:hover { background:var(--accent-light); }
 
-    .card-row { display: flex; align-items: center; gap: 10px; }
-    .card-icon { font-size: 20px; line-height: 1; }
-    .card-title { flex: 1; font-size: 15px; font-weight: 700; color: var(--text); }
+    .card-row { display:flex; align-items:center; gap:10px; }
+    .card-icon { font-size:20px; line-height:1; }
+    .card-title { flex:1; font-size:16px; font-weight:700; color:var(--text); }
 
     .chevron {
-      width: 20px; height: 20px; color: var(--text-light);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); flex-shrink: 0;
+      width:20px; height:20px; color:var(--text-light);
+      transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); flex-shrink:0;
     }
 
-    .card.shut > .card-hd .chevron { transform: rotate(-90deg); }
+    .card.shut > .card-hd .chevron { transform:rotate(-90deg); }
 
-    .card-prog { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+    .card-prog { display:flex; align-items:center; gap:12px; margin-top:12px; }
 
-    .card-bar {
-      flex: 1; height: 6px; background: var(--border-light);
-      border-radius: 100px; overflow: hidden;
-    }
+    .card-bar { flex:1; height:6px; background:var(--border-light); border-radius:100px; overflow:hidden; }
+    .card-bar-fill { height:100%; border-radius:100px; background:var(--accent); transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    .card.ok .card-bar-fill { background:var(--green); }
+    .card-num { font-size:12px; font-weight:600; color:var(--text-light); min-width:36px; text-align:right; }
+    .card.ok .card-num { color:var(--green); }
 
-    .card-bar-fill {
-      height: 100%; border-radius: 100px; background: var(--accent);
-      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+    .card-bd { overflow:hidden; transition:max-height 0.4s ease, opacity 0.3s ease; }
+    .card:not(.shut) > .card-bd { max-height:10000px; opacity:1; }
+    .card.shut > .card-bd { max-height:0; opacity:0; }
 
-    .card.ok .card-bar-fill { background: var(--green); }
-
-    .card-num {
-      font-size: 12px; font-weight: 600; color: var(--text-light);
-      min-width: 36px; text-align: right;
-    }
-
-    .card.ok .card-num { color: var(--green); }
-
-    /* ── 카드 바디 접기 ── */
-    .card-bd {
-      overflow: hidden;
-      transition: max-height 0.4s ease, opacity 0.3s ease;
-    }
-
-    .card:not(.shut) > .card-bd { max-height: 5000px; opacity: 1; }
-    .card.shut > .card-bd { max-height: 0; opacity: 0; }
-
-    /* ── 일일 카드 특수 스타일 ── */
-    .card.daily { border: 2px solid var(--daily-border); }
-    .card.daily .card-hd:hover { background: var(--daily-light); }
-    .card.daily .card-bar-fill { background: var(--daily); }
-    .card.daily.ok .card-bar-fill { background: var(--green); }
-    .card.daily .sub .sub-bar-fill { background: var(--daily); }
-    .card.daily .sub.sub-ok .sub-bar-fill { background: var(--green); }
+    /* ── 일일 카드 ── */
+    .card.daily { border:2px solid var(--daily-border); }
+    .card.daily .card-hd:hover { background:var(--daily-light); }
+    .card.daily .card-bar-fill { background:var(--daily); }
+    .card.daily.ok .card-bar-fill { background:var(--green); }
+    .card.daily .sub .sub-bar-fill { background:var(--daily); }
+    .card.daily .sub.sub-ok .sub-bar-fill { background:var(--green); }
+    .card.daily .grp .grp-bar-fill { background:var(--daily); }
+    .card.daily .grp.grp-ok .grp-bar-fill { background:var(--green); }
 
     .daily-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      padding: 3px 10px; border-radius: 100px;
-      background: var(--daily-light); color: var(--daily);
-      font-size: 11px; font-weight: 700; margin-bottom: 10px; letter-spacing: 0.3px;
+      display:inline-flex; align-items:center; gap:5px;
+      padding:3px 10px; border-radius:100px;
+      background:var(--daily-light); color:var(--daily);
+      font-size:11px; font-weight:700; margin-bottom:10px; letter-spacing:0.3px;
     }
 
-    .daily-badge svg { width: 12px; height: 12px; }
+    .daily-badge svg { width:12px; height:12px; }
 
-    /* ── 서브 카테고리 ── */
+    /* ── ## 서브: 카드 안에서 가로 그리드 ── */
+    .subs-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+      gap:10px;
+      padding:4px 14px 16px;
+      align-items:start;
+    }
+
     .sub {
-      margin: 0 14px 10px; border-radius: var(--radius-sm);
-      border: 1px solid var(--border-light); overflow: hidden;
-      transition: border-color 0.2s;
+      border-radius:var(--radius-sm);
+      border:1px solid var(--border-light);
+      overflow:hidden; transition:border-color 0.2s;
     }
 
-    .sub:first-child { margin-top: 4px; }
-    .sub:last-child { margin-bottom: 16px; }
-    .sub.sub-ok { border-color: rgba(58, 138, 92, 0.2); }
+    .sub.sub-ok { border-color:rgba(58,138,92,0.2); }
 
     .sub-hd {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 14px; cursor: pointer; user-select: none;
-      transition: background 0.15s;
+      display:flex; align-items:center; gap:10px;
+      padding:12px 14px; cursor:pointer; user-select:none;
+      transition:background 0.15s;
     }
 
-    .sub-hd:hover { background: var(--border-light); }
+    .sub-hd:hover { background:var(--border-light); }
 
     .sub-chevron {
-      width: 16px; height: 16px; color: var(--text-light);
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); flex-shrink: 0;
+      width:16px; height:16px; color:var(--text-light);
+      transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); flex-shrink:0;
     }
 
-    .sub.shut .sub-chevron { transform: rotate(-90deg); }
+    .sub.shut .sub-chevron { transform:rotate(-90deg); }
+    .sub-title { flex:1; font-size:13px; font-weight:600; color:var(--text-mid); }
+    .sub-prog { display:flex; align-items:center; gap:8px; }
+    .sub-bar { width:48px; height:4px; background:var(--border-light); border-radius:100px; overflow:hidden; }
+    .sub-bar-fill { height:100%; border-radius:100px; background:var(--accent); transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    .sub.sub-ok .sub-bar-fill { background:var(--green); }
+    .sub-num { font-size:11px; font-weight:600; color:var(--text-light); min-width:28px; text-align:right; }
+    .sub.sub-ok .sub-num { color:var(--green); }
 
-    .sub-title { flex: 1; font-size: 13px; font-weight: 600; color: var(--text-mid); }
+    .sub-bd { overflow:hidden; transition:max-height 0.35s ease, opacity 0.25s ease; }
+    .sub:not(.shut) > .sub-bd { max-height:5000px; opacity:1; }
+    .sub.shut > .sub-bd { max-height:0; opacity:0; }
 
-    .sub-prog { display: flex; align-items: center; gap: 8px; }
-
-    .sub-bar {
-      width: 48px; height: 4px; background: var(--border-light);
-      border-radius: 100px; overflow: hidden;
+    /* ── ### 그룹 ── */
+    .grp {
+      margin:0 8px 6px; border-radius:8px;
+      border:1px solid var(--border-light);
+      overflow:hidden; transition:border-color 0.2s;
     }
 
-    .sub-bar-fill {
-      height: 100%; border-radius: 100px; background: var(--accent);
-      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    .grp:first-child { margin-top:4px; }
+    .grp:last-child { margin-bottom:8px; }
+    .grp.grp-ok { border-color:rgba(58,138,92,0.2); }
+
+    .grp-hd {
+      display:flex; align-items:center; gap:8px;
+      padding:9px 12px; cursor:pointer; user-select:none;
+      transition:background 0.15s;
     }
 
-    .sub.sub-ok .sub-bar-fill { background: var(--green); }
+    .grp-hd:hover { background:var(--border-light); }
 
-    .sub-num {
-      font-size: 11px; font-weight: 600; color: var(--text-light);
-      min-width: 28px; text-align: right;
+    .grp-chevron {
+      width:14px; height:14px; color:var(--text-light);
+      transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1); flex-shrink:0;
     }
 
-    .sub.sub-ok .sub-num { color: var(--green); }
+    .grp.shut .grp-chevron { transform:rotate(-90deg); }
+    .grp-title { flex:1; font-size:12px; font-weight:600; color:var(--text-light); }
+    .grp-prog { display:flex; align-items:center; gap:6px; }
+    .grp-bar { width:36px; height:3px; background:var(--border-light); border-radius:100px; overflow:hidden; }
+    .grp-bar-fill { height:100%; border-radius:100px; background:var(--accent); transition:width 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    .grp.grp-ok .grp-bar-fill { background:var(--green); }
+    .grp-num { font-size:10px; font-weight:600; color:var(--text-light); min-width:24px; text-align:right; }
+    .grp.grp-ok .grp-num { color:var(--green); }
 
-    .sub-bd {
-      overflow: hidden;
-      transition: max-height 0.35s ease, opacity 0.25s ease;
-    }
+    .grp-bd { overflow:hidden; transition:max-height 0.3s ease, opacity 0.2s ease; }
+    .grp:not(.shut) > .grp-bd { max-height:2000px; opacity:1; }
+    .grp.shut > .grp-bd { max-height:0; opacity:0; }
 
-    .sub:not(.shut) > .sub-bd { max-height: 2000px; opacity: 1; }
-    .sub.shut > .sub-bd { max-height: 0; opacity: 0; }
-
-    .clist { padding: 0 10px 10px; }
+    /* ── 체크 아이템 ── */
+    .clist { padding:0 8px 8px; }
 
     .ci {
-      display: flex; align-items: center; gap: 12px;
-      padding: 8px 8px; border-radius: 8px;
-      cursor: pointer; transition: background 0.15s;
+      display:flex; align-items:center; gap:10px;
+      padding:7px 8px; border-radius:8px;
+      cursor:pointer; transition:background 0.15s;
     }
 
-    .ci:hover { background: var(--border-light); }
+    .ci:hover { background:var(--border-light); }
 
     .cb {
-      width: 20px; height: 20px; border-radius: 6px;
-      border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-      transition: background 0.2s, border-color 0.2s;
+      width:20px; height:20px; border-radius:6px;
+      border:2px solid var(--border);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
+      transition:background 0.2s, border-color 0.2s;
     }
 
-    .ci:hover .cb { border-color: var(--accent); }
+    .ci:hover .cb { border-color:var(--accent); }
 
     .cb svg {
-      width: 11px; height: 11px; opacity: 0; transform: scale(0);
-      transition: opacity 0.2s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      width:11px; height:11px; opacity:0; transform:scale(0);
+      transition:opacity 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
     }
 
-    .ci.done .cb { background: var(--green); border-color: var(--green); }
-    .ci.done .cb svg { opacity: 1; transform: scale(1); }
+    .ci.done .cb { background:var(--green); border-color:var(--green); }
+    .ci.done .cb svg { opacity:1; transform:scale(1); }
 
-    .cl {
-      font-size: 13px; font-weight: 400; color: var(--text);
-      transition: color 0.2s; line-height: 1.5;
-    }
+    .cl { font-size:13px; font-weight:400; color:var(--text); transition:color 0.2s; line-height:1.5; }
 
     .ci.done .cl {
-      color: var(--text-light); text-decoration: line-through;
-      text-decoration-color: rgba(158, 150, 137, 0.4);
+      color:var(--text-light); text-decoration:line-through;
+      text-decoration-color:rgba(158,150,137,0.4);
     }
 
-    .done-banner {
-      max-width: 1120px; margin: 0 auto; padding: 0 24px; display: none;
-    }
+    /* ── 배너 ── */
+    .done-banner { max-width:1120px; margin:0 auto; padding:0 24px; display:none; }
+    .done-banner.show { display:block; }
+    .done-inner { text-align:center; padding:28px; background:var(--green-light); border:1px solid rgba(58,138,92,0.15); border-radius:var(--radius); animation:bounceIn 0.5s ease; }
+    .done-inner .em { font-size:36px; }
+    .done-inner p { margin-top:8px; font-size:15px; font-weight:600; color:var(--green); }
 
-    .done-banner.show { display: block; }
-
-    .done-inner {
-      text-align: center; padding: 28px;
-      background: var(--green-light); border: 1px solid rgba(58,138,92,0.15);
-      border-radius: var(--radius); animation: bounceIn 0.5s ease;
-    }
-
-    .done-inner .em { font-size: 36px; }
-    .done-inner p { margin-top: 8px; font-size: 15px; font-weight: 600; color: var(--green); }
-
-    .footer {
-      text-align: center; padding: 32px 24px 48px;
-      font-size: 11px; color: var(--text-light); font-weight: 300; opacity: 0.5;
-    }
+    .footer { text-align:center; padding:32px 24px 48px; font-size:11px; color:var(--text-light); font-weight:300; opacity:0.5; }
 
     /* ── 색상 설정 ── */
     .color-toggle {
-      position: fixed; bottom: 28px; right: 28px;
-      width: 48px; height: 48px; border-radius: 50%; border: none;
-      background: var(--card);
-      box-shadow: var(--shadow-lg), 0 0 0 1px var(--border);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      z-index: 100; transition: transform 0.2s;
+      position:fixed; bottom:28px; right:28px;
+      width:48px; height:48px; border-radius:50%; border:none;
+      background:var(--card); box-shadow:var(--shadow-lg), 0 0 0 1px var(--border);
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      z-index:100; transition:transform 0.2s;
     }
-
-    .color-toggle:hover { transform: scale(1.08); }
-    .color-toggle svg { width: 22px; height: 22px; color: var(--text-mid); }
+    .color-toggle:hover { transform:scale(1.08); }
+    .color-toggle svg { width:22px; height:22px; color:var(--text-mid); }
 
     .color-panel {
-      position: fixed; bottom: 88px; right: 28px; width: 240px;
-      background: var(--card); border-radius: var(--radius);
-      border: 1px solid var(--border); box-shadow: var(--shadow-lg);
-      padding: 20px; z-index: 100; opacity: 0;
-      transform: translateY(12px) scale(0.95); pointer-events: none;
-      transition: opacity 0.25s, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position:fixed; bottom:88px; right:28px; width:240px;
+      background:var(--card); border-radius:var(--radius);
+      border:1px solid var(--border); box-shadow:var(--shadow-lg);
+      padding:20px; z-index:100; opacity:0;
+      transform:translateY(12px) scale(0.95); pointer-events:none;
+      transition:opacity 0.25s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .color-panel.open { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; }
+    .color-panel-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:14px; }
+    .color-presets { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:16px; }
+    .color-swatch { width:100%; aspect-ratio:1; border-radius:10px; border:2px solid transparent; cursor:pointer; transition:transform 0.15s; position:relative; }
+    .color-swatch:hover { transform:scale(1.12); }
+    .color-swatch.active { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-light); }
+    .color-swatch.active::after { content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; color:white; text-shadow:0 1px 3px rgba(0,0,0,0.3); }
+    .color-custom-row { display:flex; align-items:center; gap:10px; }
+    .color-custom-row label { font-size:12px; color:var(--text-light); white-space:nowrap; }
+    .color-input-wrap { flex:1; display:flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--bg); }
+    .color-input-wrap input[type="color"] { width:24px; height:24px; border:none; border-radius:6px; cursor:pointer; padding:0; background:none; -webkit-appearance:none; }
+    .color-input-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding:0; }
+    .color-input-wrap input[type="color"]::-webkit-color-swatch { border:1px solid rgba(0,0,0,0.1); border-radius:5px; }
+    .color-hex { font-size:12px; color:var(--text-mid); font-family:monospace; font-weight:600; }
+
+    @media (max-width:560px) {
+      h1 { font-size:28px; }
+      .tp-pct { font-size:24px; }
+      .site-header { padding-top:32px; }
+      .subs-grid { grid-template-columns:1fr; }
+      .color-toggle { bottom:20px; right:20px; width:44px; height:44px; }
+      .color-panel { bottom:76px; right:20px; width:220px; }
     }
 
-    .color-panel.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-
-    .color-panel-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
-
-    .color-presets { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 16px; }
-
-    .color-swatch {
-      width: 100%; aspect-ratio: 1; border-radius: 10px;
-      border: 2px solid transparent; cursor: pointer;
-      transition: transform 0.15s; position: relative;
-    }
-
-    .color-swatch:hover { transform: scale(1.12); }
-    .color-swatch.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
-
-    .color-swatch.active::after {
-      content: '✓'; position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 800; color: white;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-    }
-
-    .color-custom-row { display: flex; align-items: center; gap: 10px; }
-    .color-custom-row label { font-size: 12px; color: var(--text-light); white-space: nowrap; }
-
-    .color-input-wrap {
-      flex: 1; display: flex; align-items: center; gap: 8px;
-      padding: 6px 10px; border: 1px solid var(--border);
-      border-radius: var(--radius-sm); background: var(--bg);
-    }
-
-    .color-input-wrap input[type="color"] {
-      width: 24px; height: 24px; border: none; border-radius: 6px;
-      cursor: pointer; padding: 0; background: none; -webkit-appearance: none;
-    }
-
-    .color-input-wrap input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-    .color-input-wrap input[type="color"]::-webkit-color-swatch { border: 1px solid rgba(0,0,0,0.1); border-radius: 5px; }
-
-    .color-hex { font-size: 12px; color: var(--text-mid); font-family: monospace; font-weight: 600; }
-
-    @media (max-width: 560px) {
-      .color-toggle { bottom: 20px; right: 20px; width: 44px; height: 44px; }
-      .color-panel { bottom: 76px; right: 20px; width: 220px; }
-    }
-
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes bounceIn {
-      0% { opacity: 0; transform: scale(0.9); }
-      60% { transform: scale(1.03); }
-      100% { opacity: 1; transform: scale(1); }
-    }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes bounceIn { 0% { opacity:0; transform:scale(0.9); } 60% { transform:scale(1.03); } 100% { opacity:1; transform:scale(1); } }
   </style>
 </head>
 <body>
@@ -412,18 +337,12 @@
     </div>
   </div>
 
-  <div class="grid" id="grid">
-    <div class="loading">
-      <div class="loading-spin"></div>
-      <p>데이터를 불러오는 중...</p>
-    </div>
+  <div class="card-list" id="cardList">
+    <div class="loading"><div class="loading-spin"></div><p>데이터를 불러오는 중...</p></div>
   </div>
 
   <div class="done-banner" id="doneBanner">
-    <div class="done-inner">
-      <span class="em">🎉</span>
-      <p>모든 항목을 달성했어요! 정말 대단합니다!</p>
-    </div>
+    <div class="done-inner"><span class="em">🎉</span><p>모든 항목을 달성했어요! 정말 대단합니다!</p></div>
   </div>
 
   <p class="footer">체크 데이터는 이 브라우저에만 저장되며, 다른 사람에게 절대 공유되지 않습니다.</p>
@@ -448,44 +367,93 @@
 </div>
 
 <script>
+/*
+  data.md 구조:
+  # 이모지 메인카테고리    → 가로 전체 폭 카드
+  ## 서브카테고리          → 카드 안 가로 그리드
+  ### 세부그룹             → 서브 안 접기
+  - 체크항목
+
+  첫 번째 # = 일일 컨텐츠 (자정 리셋)
+*/
+
 let DATA = [];
 
 function toId(t) {
-  return t.trim().replace(/[^a-zA-Z0-9가-힣]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase().slice(0, 80);
+  return t.trim().replace(/[^a-zA-Z0-9가-힣]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').toLowerCase().slice(0,80);
 }
+function safeAttr(t) { return t.replace(/[&"'<>]/g, c => ({'&':'&amp;','"':'&quot;',"'":'&#39;','<':'&lt;','>':'&gt;'}[c])); }
+function esc(t) { const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
 
-function safeAttr(t) {
-  return t.replace(/[&"'<>]/g, c => ({'&':'&amp;','"':'&quot;',"'":'&#39;','<':'&lt;','>':'&gt;'}[c]));
-}
-
+/*
+  데이터 구조:
+  cat = { id, icon, title, subs: [
+    { id, title, groups: [
+      { id, title, items: [] }
+    ], items: [] }
+  ]}
+  - ## 아래에 ###가 있으면 groups에 들어감
+  - ## 아래에 바로 -가 있으면 items에 들어감
+*/
 function parseMd(md) {
   const lines = md.split('\n'), data = [];
-  let cur = null, curSub = null;
+  let cat = null, sub = null, grp = null;
   for (const raw of lines) {
     const line = raw.trimEnd();
     if (/^# /.test(line)) {
       const text = line.replace(/^# /,'').trim();
       const em = text.match(/^(\p{Emoji_Presentation}|\p{Emoji}\uFE0F?)\s*(.*)/u);
-      cur = { id: toId(em?em[2]:text), icon: em?em[1]:'📁', title: em?em[2]:text, subs: [] };
-      curSub = null; data.push(cur);
-    } else if (/^## /.test(line) && cur) {
+      cat = { id:toId(em?em[2]:text), icon:em?em[1]:'📁', title:em?em[2]:text, subs:[] };
+      sub = null; grp = null; data.push(cat);
+    } else if (/^## /.test(line) && cat) {
       const t = line.replace(/^## /,'').trim();
-      curSub = { id: toId(cur.title+'-'+t), title: t, items: [] };
-      cur.subs.push(curSub);
-    } else if (/^[-*] /.test(line.trim()) && curSub) {
+      sub = { id:toId(cat.title+'-'+t), title:t, groups:[], items:[] };
+      grp = null; cat.subs.push(sub);
+    } else if (/^### /.test(line) && sub) {
+      const t = line.replace(/^### /,'').trim();
+      grp = { id:toId(sub.id+'-'+t), title:t, items:[] };
+      sub.groups.push(grp);
+    } else if (/^[-*] /.test(line.trim())) {
       const it = line.trim().replace(/^[-*] /,'').trim();
-      if (it) curSub.items.push(it);
+      if (!it) continue;
+      if (grp) grp.items.push(it);
+      else if (sub) sub.items.push(it);
     }
   }
   return data;
 }
 
 // ── 저장 ──
-const KEY = 'my-checklist-v2';
-const DAILY_DATE_KEY = 'my-checklist-daily-date';
+const KEY='my-checklist-v3';
+const DAILY_DATE_KEY='my-checklist-daily-date';
 function load() { try { return JSON.parse(localStorage.getItem(KEY))||{}; } catch { return {}; } }
 function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
 let st = load();
+
+function getSubItemKeys(sub) {
+  // sub에 속한 모든 체크 가능 항목의 키 목록
+  const keys = [];
+  sub.items.forEach((_,i) => keys.push({ storeId: sub.id, idx: i }));
+  sub.groups.forEach(grp => {
+    grp.items.forEach((_,i) => keys.push({ storeId: grp.id, idx: i }));
+  });
+  return keys;
+}
+
+function countSub(sub) {
+  let done=0, total=0;
+  sub.items.forEach((_,i) => { total++; if((st[sub.id]||{})[i]) done++; });
+  sub.groups.forEach(grp => {
+    grp.items.forEach((_,i) => { total++; if((st[grp.id]||{})[i]) done++; });
+  });
+  return { done, total };
+}
+
+function countCat(cat) {
+  let done=0, total=0;
+  cat.subs.forEach(sub => { const c=countSub(sub); done+=c.done; total+=c.total; });
+  return { done, total };
+}
 
 // ── 일일 리셋 ──
 function checkDailyReset() {
@@ -494,41 +462,72 @@ function checkDailyReset() {
   const today = new Date().toLocaleDateString('ko-KR');
   const last = localStorage.getItem(DAILY_DATE_KEY);
   if (last !== today) {
-    daily.subs.forEach(sub => { delete st[sub.id]; });
+    daily.subs.forEach(sub => {
+      delete st[sub.id];
+      sub.groups.forEach(grp => { delete st[grp.id]; });
+    });
     save(st);
     localStorage.setItem(DAILY_DATE_KEY, today);
   }
 }
 
 function scheduleMidnightReset() {
-  const now = new Date(), mid = new Date(now);
+  const now=new Date(), mid=new Date(now);
   mid.setDate(mid.getDate()+1); mid.setHours(0,0,0,0);
-  setTimeout(() => { checkDailyReset(); render(); scheduleMidnightReset(); }, mid - now);
+  setTimeout(() => { checkDailyReset(); render(); scheduleMidnightReset(); }, mid-now);
 }
 
-const CHK = `<svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 4.8 9.3 10 2.7"/></svg>`;
-const CHEV = `<svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
-const SCHEV = `<svg class="sub-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
+const CHK=`<svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 4.8 9.3 10 2.7"/></svg>`;
+const CHEV=`<svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
+const SCHEV=`<svg class="sub-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
+const GCHEV=`<svg class="grp-chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 8 10 12 14 8"/></svg>`;
 
-function esc(t) { const d=document.createElement('div'); d.textContent=t; return d.innerHTML; }
-
-function countCat(cat) {
-  let done=0, total=0;
-  cat.subs.forEach(sub => {
-    const ss = st[sub.id]||{};
-    sub.items.forEach((_,i) => { total++; if(ss[i]) done++; });
-  });
-  return { done, total };
+function buildItems(storeId, items) {
+  const ss = st[storeId]||{};
+  return items.map((it,i) => `
+    <div class="ci${ss[i]?' done':''}" data-store="${safeAttr(storeId)}" data-i="${i}">
+      <div class="cb">${CHK}</div>
+      <span class="cl">${esc(it)}</span>
+    </div>`).join('');
 }
 
 function buildSubs(cat) {
   let html = '';
   cat.subs.forEach(sub => {
-    const ss = st[sub.id]||{};
-    const dn = sub.items.filter((_,i) => ss[i]).length;
-    const pct = sub.items.length ? Math.round((dn/sub.items.length)*100) : 0;
-    const ok = dn===sub.items.length && sub.items.length>0;
+    const { done:dn, total:tt } = countSub(sub);
+    const pct = tt ? Math.round((dn/tt)*100) : 0;
+    const ok = dn===tt && tt>0;
     const shut = localStorage.getItem('shut-'+sub.id)==='1';
+
+    let innerHtml = '';
+
+    // ### 그룹들
+    sub.groups.forEach(grp => {
+      const gs = st[grp.id]||{};
+      const gdn = grp.items.filter((_,i)=>gs[i]).length;
+      const gpct = grp.items.length ? Math.round((gdn/grp.items.length)*100) : 0;
+      const gok = gdn===grp.items.length && grp.items.length>0;
+      const gshut = localStorage.getItem('shut-'+grp.id)==='1';
+
+      innerHtml += `
+        <div class="grp${gok?' grp-ok':''}${gshut?' shut':''}">
+          <div class="grp-hd" data-grp="${safeAttr(grp.id)}">
+            ${GCHEV}
+            <span class="grp-title">${esc(grp.title)}</span>
+            <div class="grp-prog">
+              <div class="grp-bar"><div class="grp-bar-fill" style="width:${gpct}%"></div></div>
+              <span class="grp-num">${gdn}/${grp.items.length}</span>
+            </div>
+          </div>
+          <div class="grp-bd"><div class="clist">${buildItems(grp.id, grp.items)}</div></div>
+        </div>`;
+    });
+
+    // 직접 아이템 (### 없이 바로 - 인 경우)
+    if (sub.items.length) {
+      innerHtml += `<div class="clist">${buildItems(sub.id, sub.items)}</div>`;
+    }
+
     html += `
       <div class="sub${ok?' sub-ok':''}${shut?' shut':''}">
         <div class="sub-hd" data-sub="${safeAttr(sub.id)}">
@@ -536,41 +535,33 @@ function buildSubs(cat) {
           <span class="sub-title">${esc(sub.title)}</span>
           <div class="sub-prog">
             <div class="sub-bar"><div class="sub-bar-fill" style="width:${pct}%"></div></div>
-            <span class="sub-num">${dn}/${sub.items.length}</span>
+            <span class="sub-num">${dn}/${tt}</span>
           </div>
         </div>
-        <div class="sub-bd">
-          <div class="clist">
-            ${sub.items.map((it,i) => `
-              <div class="ci${ss[i]?' done':''}" data-sub="${safeAttr(sub.id)}" data-i="${i}">
-                <div class="cb">${CHK}</div>
-                <span class="cl">${esc(it)}</span>
-              </div>`).join('')}
-          </div>
-        </div>
+        <div class="sub-bd">${innerHtml}</div>
       </div>`;
   });
   return html;
 }
 
 function render() {
-  const g = document.getElementById('grid');
-  g.innerHTML = '';
+  const list = document.getElementById('cardList');
+  list.innerHTML = '';
   let tDone=0, tAll=0;
 
-  DATA.forEach((cat, ci) => {
+  DATA.forEach((cat,ci) => {
     const isDaily = ci===0;
-    const { done: catDone, total: catTotal } = countCat(cat);
+    const { done:catDone, total:catTotal } = countCat(cat);
     const catPct = catTotal ? Math.round((catDone/catTotal)*100) : 0;
     const catOk = catDone===catTotal && catTotal>0;
     tDone += catDone; tAll += catTotal;
 
     const shut = localStorage.getItem('shut-'+cat.id)==='1';
     const el = document.createElement('div');
-    el.className = 'card' + (isDaily?' daily':'') + (catOk?' ok':'') + (shut?' shut':'');
+    el.className = 'card'+(isDaily?' daily':'')+(catOk?' ok':'')+(shut?' shut':'');
     el.style.animationDelay = (0.04*ci)+'s';
 
-    const badgeHtml = isDaily ? `
+    const badge = isDaily ? `
       <div class="daily-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
         매일 자정 리셋
@@ -578,7 +569,7 @@ function render() {
 
     el.innerHTML = `
       <div class="card-hd" data-id="${safeAttr(cat.id)}">
-        ${badgeHtml}
+        ${badge}
         <div class="card-row">
           <span class="card-icon">${esc(cat.icon)}</span>
           <span class="card-title">${esc(cat.title)}</span>
@@ -589,8 +580,54 @@ function render() {
           <span class="card-num">${catPct}%</span>
         </div>
       </div>
-      <div class="card-bd">${buildSubs(cat)}</div>`;
-    g.appendChild(el);
+      <div class="card-bd"><div class="subs-grid">${buildSubs(cat)}</div></div>`;
+    list.appendChild(el);
+  });
+
+  const tp = tAll ? Math.round((tDone/tAll)*100) : 0;
+  document.getElementById('tPct').textContent = tp+'%';
+  document.getElementById('tBar').style.width = tp+'%';
+  document.getElementById('tStats').innerHTML =
+    `<span>완료 <strong>${tDone}</strong> / ${tAll}</span><span>카테고리 <strong>${DATA.length}</strong>개</span>`;
+  document.getElementById('doneBanner').classList.toggle('show', tDone===tAll && tAll>0);
+}
+
+// ── 프로그레스 업데이트 (깜빡임 없이) ──
+function updateProgress() {
+  let tDone=0, tAll=0;
+
+  document.querySelectorAll('.card').forEach((cardEl,ci) => {
+    const cat = DATA[ci]; if (!cat) return;
+    const { done:catDone, total:catTotal } = countCat(cat);
+    const catPct = catTotal ? Math.round((catDone/catTotal)*100) : 0;
+    tDone += catDone; tAll += catTotal;
+
+    cardEl.querySelector('.card-bar-fill').style.width = catPct+'%';
+    cardEl.querySelector('.card-num').textContent = catPct+'%';
+    cardEl.classList.toggle('ok', catDone===catTotal && catTotal>0);
+
+    cardEl.querySelectorAll('.sub').forEach((subEl,si) => {
+      const sub = cat.subs[si]; if (!sub) return;
+      const { done:dn, total:tt } = countSub(sub);
+      const pct = tt ? Math.round((dn/tt)*100) : 0;
+      subEl.querySelector('.sub-bar-fill').style.width = pct+'%';
+      subEl.querySelector('.sub-num').textContent = dn+'/'+tt;
+      subEl.classList.toggle('sub-ok', dn===tt && tt>0);
+    });
+
+    cardEl.querySelectorAll('.grp').forEach(grpEl => {
+      const grpId = grpEl.querySelector('.grp-hd').dataset.grp;
+      // 해당 grp 찾기
+      let grpData = null;
+      cat.subs.forEach(sub => sub.groups.forEach(g => { if (g.id===grpId) grpData=g; }));
+      if (!grpData) return;
+      const gs = st[grpData.id]||{};
+      const gdn = grpData.items.filter((_,i)=>gs[i]).length;
+      const gpct = grpData.items.length ? Math.round((gdn/grpData.items.length)*100) : 0;
+      grpEl.querySelector('.grp-bar-fill').style.width = gpct+'%';
+      grpEl.querySelector('.grp-num').textContent = gdn+'/'+grpData.items.length;
+      grpEl.classList.toggle('grp-ok', gdn===grpData.items.length && grpData.items.length>0);
+    });
   });
 
   const tp = tAll ? Math.round((tDone/tAll)*100) : 0;
@@ -602,60 +639,31 @@ function render() {
 }
 
 // ── 이벤트 ──
-function updateProgress() {
-  // 서브, 카드, 전체 프로그레스를 DOM에서 직접 업데이트
-  let tDone = 0, tAll = 0;
-
-  document.querySelectorAll('.card').forEach((card, ci) => {
-    const cat = DATA[ci];
-    if (!cat) return;
-    let catDone = 0, catTotal = 0;
-
-    card.querySelectorAll('.sub').forEach((subEl, si) => {
-      const sub = cat.subs[si];
-      if (!sub) return;
-      const ss = st[sub.id] || {};
-      const dn = sub.items.filter((_, i) => ss[i]).length;
-      const pct = sub.items.length ? Math.round((dn / sub.items.length) * 100) : 0;
-      const ok = dn === sub.items.length && sub.items.length > 0;
-      catDone += dn; catTotal += sub.items.length;
-
-      subEl.querySelector('.sub-bar-fill').style.width = pct + '%';
-      subEl.querySelector('.sub-num').textContent = dn + '/' + sub.items.length;
-      subEl.classList.toggle('sub-ok', ok);
-    });
-
-    const catPct = catTotal ? Math.round((catDone / catTotal) * 100) : 0;
-    const catOk = catDone === catTotal && catTotal > 0;
-    card.querySelector('.card-bar-fill').style.width = catPct + '%';
-    card.querySelector('.card-num').textContent = catPct + '%';
-    card.classList.toggle('ok', catOk);
-
-    tDone += catDone; tAll += catTotal;
-  });
-
-  const tp = tAll ? Math.round((tDone / tAll) * 100) : 0;
-  document.getElementById('tPct').textContent = tp + '%';
-  document.getElementById('tBar').style.width = tp + '%';
-  document.getElementById('tStats').innerHTML =
-    `<span>완료 <strong>${tDone}</strong> / ${tAll}</span><span>카테고리 <strong>${DATA.length}</strong>개</span>`;
-  document.getElementById('doneBanner').classList.toggle('show', tDone === tAll && tAll > 0);
-}
-
 document.addEventListener('click', e => {
   if (e.target.closest('.color-toggle') || e.target.closest('.color-panel')) return;
 
+  // 체크 항목
   const ci = e.target.closest('.ci');
   if (ci) {
-    const { sub, i } = ci.dataset;
-    if (!st[sub]) st[sub] = {};
-    st[sub][i] = !st[sub][i];
+    const { store, i } = ci.dataset;
+    if (!st[store]) st[store] = {};
+    st[store][i] = !st[store][i];
     save(st);
-    // 체크 항목만 토글 (전체 다시 그리지 않음)
-    ci.classList.toggle('done', !!st[sub][i]);
+    ci.classList.toggle('done', !!st[store][i]);
     updateProgress();
     return;
   }
+
+  // ### 그룹 접기
+  const grpHd = e.target.closest('.grp-hd');
+  if (grpHd) {
+    const grpEl = grpHd.closest('.grp');
+    grpEl.classList.toggle('shut');
+    localStorage.setItem('shut-'+grpHd.dataset.grp, grpEl.classList.contains('shut')?'1':'0');
+    return;
+  }
+
+  // ## 서브 접기
   const subHd = e.target.closest('.sub-hd');
   if (subHd) {
     const subEl = subHd.closest('.sub');
@@ -663,6 +671,8 @@ document.addEventListener('click', e => {
     localStorage.setItem('shut-'+subHd.dataset.sub, subEl.classList.contains('shut')?'1':'0');
     return;
   }
+
+  // # 카드 접기
   const hd = e.target.closest('.card-hd');
   if (hd) {
     const card = hd.closest('.card');
@@ -679,7 +689,7 @@ async function init() {
     DATA = parseMd(await res.text());
     checkDailyReset(); scheduleMidnightReset(); render();
   } catch {
-    document.getElementById('grid').innerHTML =
+    document.getElementById('cardList').innerHTML =
       `<div class="error-msg"><p>⚠️ data.md 파일을 불러올 수 없습니다.</p>
        <p style="margin-top:8px;font-size:12px;color:var(--text-light)">저장소에 data.md 파일이 있는지 확인해주세요.</p></div>`;
   }
@@ -688,11 +698,11 @@ init();
 
 // ── 배경색 ──
 const PRESETS = [
-  { color:'#f5f0eb', name:'기본' }, { color:'#fef9ef', name:'크림' },
-  { color:'#f0f4f1', name:'민트' }, { color:'#eef1f6', name:'하늘' },
-  { color:'#f5f0f6', name:'라벤더' }, { color:'#fdf0f0', name:'로즈' },
-  { color:'#f6f3ee', name:'베이지' }, { color:'#2a2520', name:'다크' },
-  { color:'#1a1e2e', name:'네이비' }, { color:'#1e2a22', name:'포레스트' },
+  {color:'#f5f0eb',name:'기본'},{color:'#fef9ef',name:'크림'},
+  {color:'#f0f4f1',name:'민트'},{color:'#eef1f6',name:'하늘'},
+  {color:'#f5f0f6',name:'라벤더'},{color:'#fdf0f0',name:'로즈'},
+  {color:'#f6f3ee',name:'베이지'},{color:'#2a2520',name:'다크'},
+  {color:'#1a1e2e',name:'네이비'},{color:'#1e2a22',name:'포레스트'},
 ];
 
 const BG_KEY='my-checklist-bg';
@@ -725,21 +735,15 @@ function applyBg(hex) {
   document.documentElement.style.setProperty('--border',dark?'#3e3a34':'#e8e2da');
   document.documentElement.style.setProperty('--border-light',dark?'#353128':'#f0ece6');
   customInput.value=hex; hexLabel.textContent=hex;
-  document.querySelectorAll('.color-swatch').forEach(s => {
-    s.classList.toggle('active',s.dataset.color===hex);
-  });
+  document.querySelectorAll('.color-swatch').forEach(s => { s.classList.toggle('active',s.dataset.color===hex); });
   localStorage.setItem(BG_KEY,hex);
 }
 
 presetGrid.addEventListener('click', e => { const s=e.target.closest('.color-swatch'); if(s) applyBg(s.dataset.color); });
 customInput.addEventListener('input', e => applyBg(e.target.value));
 ctoggle.addEventListener('click', e => { e.stopPropagation(); cpanel.classList.toggle('open'); });
-document.addEventListener('click', e => {
-  if(!cpanel.contains(e.target) && !ctoggle.contains(e.target)) cpanel.classList.remove('open');
-});
-
-const savedBg=localStorage.getItem(BG_KEY);
-if(savedBg) applyBg(savedBg);
+document.addEventListener('click', e => { if(!cpanel.contains(e.target)&&!ctoggle.contains(e.target)) cpanel.classList.remove('open'); });
+const savedBg=localStorage.getItem(BG_KEY); if(savedBg) applyBg(savedBg);
 </script>
 </body>
 </html>
