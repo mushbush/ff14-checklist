@@ -192,15 +192,21 @@
     .sub:not(.shut) > .sub-bd { max-height:5000px; opacity:1; }
     .sub.shut > .sub-bd { max-height:0; opacity:0; }
 
+    .sub-bd-inner {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+      gap:6px;
+      padding:4px 4px 8px;
+      align-items:start;
+    }
+
     /* ── ### 그룹 ── */
     .grp {
-      margin:0 8px 6px; border-radius:8px;
+      border-radius:8px;
       border:1px solid var(--border-light);
       overflow:hidden; transition:border-color 0.2s;
     }
 
-    .grp:first-child { margin-top:4px; }
-    .grp:last-child { margin-bottom:8px; }
     .grp.grp-ok { border-color:rgba(58,138,92,0.2); }
 
     .grp-hd {
@@ -538,7 +544,7 @@ function buildSubs(cat) {
             <span class="sub-num">${dn}/${tt}</span>
           </div>
         </div>
-        <div class="sub-bd">${innerHtml}</div>
+        <div class="sub-bd">${sub.groups.length ? '<div class="sub-bd-inner">'+innerHtml+'</div>' : innerHtml}</div>
       </div>`;
   });
   return html;
