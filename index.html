@@ -20,6 +20,9 @@
       --daily: #3b6fb5;
       --daily-light: rgba(59, 111, 181, 0.08);
       --daily-border: rgba(59, 111, 181, 0.25);
+      --weekly: #8b5cc2;
+      --weekly-light: rgba(139, 92, 194, 0.08);
+      --weekly-border: rgba(139, 92, 194, 0.25);
       --border: #e8e2da;
       --border-light: #f0ece6;
       --shadow-sm: 0 1px 3px rgba(26,23,20,0.04);
@@ -148,6 +151,25 @@
     }
 
     .daily-badge svg { width:12px; height:12px; }
+
+    /* ── 주간 카드 ── */
+    .card.weekly { border:2px solid var(--weekly-border); }
+    .card.weekly .card-hd:hover { background:var(--weekly-light); }
+    .card.weekly .card-bar-fill { background:var(--weekly); }
+    .card.weekly.ok .card-bar-fill { background:var(--green); }
+    .card.weekly .sub .sub-bar-fill { background:var(--weekly); }
+    .card.weekly .sub.sub-ok .sub-bar-fill { background:var(--green); }
+    .card.weekly .grp .grp-bar-fill { background:var(--weekly); }
+    .card.weekly .grp.grp-ok .grp-bar-fill { background:var(--green); }
+
+    .weekly-badge {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:3px 10px; border-radius:100px;
+      background:var(--weekly-light); color:var(--weekly);
+      font-size:11px; font-weight:700; margin-bottom:10px; letter-spacing:0.3px;
+    }
+
+    .weekly-badge svg { width:12px; height:12px; }
 
     /* ── ## 서브: 카드 안에서 가로 그리드 ── */
     .subs-grid {
@@ -426,12 +448,12 @@ function parseMd(md) {
 // ── 저장 ──
 const KEY='my-checklist-v3';
 const DAILY_DATE_KEY='my-checklist-daily-date';
+const WEEKLY_RESET_KEY='my-checklist-weekly-reset';
 function load() { try { return JSON.parse(localStorage.getItem(KEY))||{}; } catch { return {}; } }
 function save(s) { localStorage.setItem(KEY, JSON.stringify(s)); }
 let st = load();
 
 function getSubItemKeys(sub) {
-  // sub에 속한 모든 체크 가능 항목의 키 목록
   const keys = [];
   sub.items.forEach((_,i) => keys.push({ storeId: sub.id, idx: i }));
   sub.groups.forEach(grp => {
@@ -455,26 +477,79 @@ function countCat(cat) {
   return { done, total };
 }
 
-// ── 일일 리셋 ──
+function resetCat(cat) {
+  cat.subs.forEach(sub => {
+    delete st[sub.id];
+    sub.groups.forEach(grp => { delete st[grp.id]; });
+  });
+  save(st);
+}
+
+// ── 일일 리셋 (매일 자정) ──
 function checkDailyReset() {
-  if (!DATA.length) return;
-  const daily = DATA[0];
+  if (DATA.length < 1) return;
   const today = new Date().toLocaleDateString('ko-KR');
   const last = localStorage.getItem(DAILY_DATE_KEY);
   if (last !== today) {
-    daily.subs.forEach(sub => {
-      delete st[sub.id];
-      sub.groups.forEach(grp => { delete st[grp.id]; });
-    });
-    save(st);
+    resetCat(DATA[0]);
     localStorage.setItem(DAILY_DATE_KEY, today);
   }
 }
 
-function scheduleMidnightReset() {
-  const now=new Date(), mid=new Date(now);
+// ── 주간 리셋 (매주 화요일 17:00) ──
+function getLastTuesday17() {
+  // 가장 최근 화요일 17:00 시각을 구함
+  const now = new Date();
+  const d = new Date(now);
+  // 현재 요일 (0=일, 2=화)
+  const day = d.getDay();
+  // 화요일까지 며칠 전인지
+  let diff = (day + 7 - 2) % 7; // 화요일 이후 경과 일수
+  if (diff === 0 && (d.getHours() < 17)) {
+    diff = 7; // 아직 화 17시 전이면 지난주 화요일 기준
+  }
+  d.setDate(d.getDate() - diff);
+  d.setHours(17, 0, 0, 0);
+  return d.getTime();
+}
+
+function getNextTuesday17() {
+  const now = new Date();
+  const d = new Date(now);
+  const day = d.getDay();
+  let daysUntilTue = (2 - day + 7) % 7;
+  if (daysUntilTue === 0 && d.getHours() >= 17) {
+    daysUntilTue = 7;
+  }
+  d.setDate(d.getDate() + daysUntilTue);
+  d.setHours(17, 0, 0, 0);
+  return d;
+}
+
+function checkWeeklyReset() {
+  if (DATA.length < 2) return;
+  const lastTue = getLastTuesday17();
+  const savedReset = parseInt(localStorage.getItem(WEEKLY_RESET_KEY) || '0');
+  if (savedReset < lastTue) {
+    resetCat(DATA[1]);
+    localStorage.setItem(WEEKLY_RESET_KEY, lastTue.toString());
+  }
+}
+
+// ── 타이머 ──
+function scheduleResets() {
+  const now = new Date();
+  // 다음 자정
+  const mid = new Date(now);
   mid.setDate(mid.getDate()+1); mid.setHours(0,0,0,0);
-  setTimeout(() => { checkDailyReset(); render(); scheduleMidnightReset(); }, mid-now);
+  setTimeout(() => { checkDailyReset(); render(); scheduleResets(); }, mid-now);
+
+  // 다음 화요일 17:00
+  const nextTue = getNextTuesday17();
+  const msToTue = nextTue - now;
+  if (msToTue > 0) {
+    setTimeout(() => { checkWeeklyReset(); render(); scheduleResets(); }, msToTue);
+  }
 }
 
 const CHK=`<svg viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2 6.5 4.8 9.3 10 2.7"/></svg>`;
@@ -551,6 +626,7 @@ function render() {
 
   DATA.forEach((cat,ci) => {
     const isDaily = ci===0;
+    const isWeekly = ci===1;
     const { done:catDone, total:catTotal } = countCat(cat);
     const catPct = catTotal ? Math.round((catDone/catTotal)*100) : 0;
     const catOk = catDone===catTotal && catTotal>0;
@@ -558,14 +634,20 @@ function render() {
 
     const shut = localStorage.getItem('shut-'+cat.id)==='1';
     const el = document.createElement('div');
-    el.className = 'card'+(isDaily?' daily':'')+(catOk?' ok':'')+(shut?' shut':'');
+    el.className = 'card'+(isDaily?' daily':'')+(isWeekly?' weekly':'')+(catOk?' ok':'')+(shut?' shut':'');
     el.style.animationDelay = (0.04*ci)+'s';
 
-    const badge = isDaily ? `
+    let badge = '';
+    if (isDaily) badge = `
       <div class="daily-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
         매일 자정 리셋
-      </div>` : '';
+      </div>`;
+    if (isWeekly) badge = `
+      <div class="weekly-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        매주 화요일 17:00 리셋
+      </div>`;
 
     el.innerHTML = `
       <div class="card-hd" data-id="${safeAttr(cat.id)}">
@@ -687,7 +769,7 @@ async function init() {
     const res = await fetch('data.md?t='+Date.now());
     if (!res.ok) throw new Error('not found');
     DATA = parseMd(await res.text());
-    checkDailyReset(); scheduleMidnightReset(); render();
+    checkDailyReset(); checkWeeklyReset(); scheduleResets(); render();
   } catch {
     document.getElementById('cardList').innerHTML =
       `<div class="error-msg"><p>⚠️ data.md 파일을 불러올 수 없습니다.</p>
